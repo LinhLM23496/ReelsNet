@@ -40,7 +40,23 @@ Project Structure Explanation
 
 🥈 Build the TypeScript project to JavaScript for production:
 
-👉 `yarn build:android`
+### Android:
+
+- To build an APK file:
+  👉 `yarn apk`
+
+- To build an AAB file:
+  👉 `yarn aab`
+
+### iOS:
+
+- To build the file for iOS:
+  1. Open Xcode.
+  2. Select your project in Xcode.
+  3. Choose the "Product" menu.
+  4. Select "Archive" to create the build file.
+
+---
 
 🥈 Check ESLint / Prettier errors:
 
@@ -48,8 +64,12 @@ Project Structure Explanation
 
 👉 `npm run lint`
 
+---
+
 🥈 If you want ESLint to automatically fix errors, run:
 👉 `npm run lint:fix`
+
+---
 
 🥈 Similarly, for Prettier, use:
 
