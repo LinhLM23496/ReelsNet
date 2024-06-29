@@ -1,13 +1,26 @@
 import { Dimensions } from 'react-native'
 
-export type SizeType = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | '3xl'
+export type AvatarSizeType = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
+export type IconSizeType = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | '3xl'
+export type FontSizeType = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | '3xl'
+export type SpaceSizeType =
+  | 'width'
+  | 'height'
+  | 'half_width'
+  | 'half_height'
+  | 'xxs'
+  | 'xs'
+  | 's'
+  | 'm'
+  | 'l'
+  | 'xl'
+  | 'xxl'
+  | '3xl'
 
 const { width, height } = Dimensions.get('window')
 const baseRatioSize = 400 // why 400? because ... ask Giang Ca and me
 const ratio = width / baseRatioSize
 // const baseUnit = 8;
-
-const mSize = Math.round(20 * ratio)
 
 export const space = {
   width,
@@ -17,9 +30,11 @@ export const space = {
   xxs: Math.round(4 * ratio),
   xs: Math.round(8 * ratio),
   s: Math.round(12 * ratio),
-  m: mSize,
-  l: Math.round(24 * ratio),
-  xl: Math.round(32 * ratio)
+  m: Math.round(16 * ratio),
+  l: Math.round(20 * ratio),
+  xl: Math.round(24 * ratio),
+  xxl: Math.round(32 * ratio),
+  '4xl': Math.round(40 * ratio)
 }
 
 export const fontSize = {
