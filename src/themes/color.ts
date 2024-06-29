@@ -23,8 +23,8 @@ export const color = {
   c: '#CE9F40',
   d: '#678983',
   e: '#3F979B',
-  f: '#6F1AB6',
-};
+  f: '#6F1AB6'
+}
 
 export const colorRandom = [
   '#CD3645',
@@ -32,8 +32,8 @@ export const colorRandom = [
   '#CE9F40',
   '#678983',
   '#3F979B',
-  '#6F1AB6',
-];
+  '#6F1AB6'
+]
 
 export const colorRange = {
   primary: {
@@ -41,7 +41,7 @@ export const colorRange = {
     200: '#46BFF8',
     300: '#1AA8EB',
     400: '#1899D6',
-    500: '#0F6187',
+    500: '#0F6187'
   },
   success: {
     100: '#9dff9d',
@@ -49,7 +49,7 @@ export const colorRange = {
     300: '#4fff4f',
     400: '#28ff28',
     500: '#00ff00',
-    600: '#00d800',
+    600: '#00d800'
   },
   gray: {
     100: '#e3e3e3',
@@ -60,7 +60,7 @@ export const colorRange = {
     600: '#818181',
     700: '#454c53',
     800: '#26282b',
-    900: '#1b1d1f',
+    900: '#1b1d1f'
   },
   warning: {
     100: '#ffffd2',
@@ -68,7 +68,7 @@ export const colorRange = {
     300: '#ffff84',
     400: '#ffff5d',
     500: '#ffff35',
-    600: '#ffff0e',
+    600: '#ffff0e'
   },
   danger: {
     100: '#ea7c7b',
@@ -76,7 +76,7 @@ export const colorRange = {
     300: '#e3504f',
     400: '#e03a39',
     500: '#dd2423',
-    600: '#c7201f',
+    600: '#c7201f'
   },
   info: {
     100: '#d3aaed',
@@ -84,7 +84,7 @@ export const colorRange = {
     300: '#be80e4',
     400: '#b36be0',
     500: '#a856dc',
-    600: '#9d41d7',
+    600: '#9d41d7'
   },
   pink: {
     100: '#fff3f5',
@@ -92,7 +92,7 @@ export const colorRange = {
     300: '#ffc0cb',
     400: '#ffa7b6',
     500: '#ff8da1',
-    600: '#ff748c',
+    600: '#ff748c'
   },
   teal: {
     100: '#eef0f0',
@@ -103,8 +103,8 @@ export const colorRange = {
     600: '#455554',
     700: '#34403f',
     800: '#222a2a',
-    900: '#111515',
-  },
-};
+    900: '#111515'
+  }
+}
 
-export default color;
+export default color

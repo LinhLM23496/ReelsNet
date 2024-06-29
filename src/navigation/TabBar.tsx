@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Keyboard,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Text
-} from 'react-native'
+import { Keyboard, View, TouchableOpacity, StyleSheet } from 'react-native'
 // import { Dot, Icon, Text } from 'components'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { HEIGHT_BOTTOM_BAR, color, space } from 'themes'
+import { Icon } from 'components'
+import { IconComponent } from 'components/Icon/Icon'
 
 interface DetailTabProps {
-  name: string
-  icon: string
+  icon: keyof typeof IconComponent
 }
 
 const detailTab = (name: string): DetailTabProps => {
   switch (name) {
-    case 'ListBook':
-      return { name: 'Danh sách', icon: 'book' }
+    case 'CreatePost':
+      return { icon: 'plus' }
 
-    case 'Profile':
-      return { name: 'Tài khoản', icon: 'user' }
+    case 'Settings':
+      return { icon: 'setting' }
 
     default:
-      return { name: 'Home', icon: 'home-1' }
+      return { icon: 'home' }
   }
 }
 
@@ -60,7 +55,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
             ? options.title
             : route.name
 
-        const { name, icon } = detailTab(label)
+        const { icon } = detailTab(label)
 
         const isFocused = state.index === index
 
@@ -103,12 +98,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
                 borderColor: isFocused ? color.primary : color.transparent
               }
             ]}>
-            {/* <Icon
-              name={icon}
-              color={isFocused ? color.primary : color.gray}
-              variant={isFocused ? 'bold' : 'outline'}
-            /> */}
-            <Text>{name}</Text>
+            <Icon name={icon} color={isFocused ? color.primary : color.gray} />
           </TouchableOpacity>
         )
       })}
@@ -120,7 +110,8 @@ export default TabBar
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: color.white
   },
   tabBar: {
     flex: 1,
