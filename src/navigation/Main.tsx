@@ -19,7 +19,7 @@ const Main = () => {
           animation: 'slide_from_right'
         }}>
         <Screen name={Route.Main.name} component={BottomTabNavigator} />
-        <Screen {...Route.Home} />
+        <Screen {...Route.Search} />
       </Navigator>
     </NavigationContainer>
   )

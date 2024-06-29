@@ -1,0 +1,108 @@
+import React from 'react'
+import { TouchableOpacity, ActivityIndicator, ViewStyle } from 'react-native'
+import { color, colorRange } from 'themes'
+import { Icon, Text } from 'components'
+import { IButtonProps } from './Button.types'
+import { styles } from './Button.styles'
+import { convertSpaceSize } from 'lib'
+
+function Button(props: IButtonProps) {
+  const {
+    text,
+    onPress,
+    variant = 'filled',
+    iconName,
+    iconSize = 'm',
+    iconColor,
+    style,
+    styleContent,
+    disabled,
+    loading,
+    ElementLeft,
+    ElementRight,
+    spacing: _spacing = 's',
+    borderRadius: _borderRadius = 'width',
+    isFullWidth,
+    fontSize: _fontSize,
+    colorText: _colorText,
+    ...rest
+  } = props
+
+  const spacing = convertSpaceSize(_spacing)
+  const borderRadius = convertSpaceSize(_borderRadius)
+
+  const isFilled = variant === 'filled'
+  const isGhost = variant === 'ghost'
+  const ElementRightToRender = ElementRight ?? null
+  const ElementLeftToRender = ElementLeft ?? null
+  const colorText = disabled
+    ? colorRange.gray[100]
+    : _colorText
+    ? _colorText
+    : isFilled
+    ? color.white
+    : color.primary
+
+  const backgroundColor = isGhost
+    ? color.transparent
+    : !isFilled
+    ? color.white
+    : disabled
+    ? color.gray
+    : color.primary
+
+  const borderColor = isGhost
+    ? color.transparent
+    : disabled
+    ? color.gray
+    : color.primary
+  const width = isFullWidth ? '100%' : 'auto'
+  const alignSelf = iconName ? 'center' : 'flex-start'
+  const aspectRatio = iconName && !text && !isFullWidth ? 1 : 'auto'
+  const paddingHorizontal = text ? spacing / 0.6 : iconName ? spacing : 0
+
+  const styleContainer: ViewStyle = {
+    borderRadius,
+    paddingVertical: spacing,
+    paddingHorizontal,
+    aspectRatio,
+    backgroundColor,
+    borderColor,
+    alignSelf,
+    width
+  }
+  const colorLoading = isFilled ? color.white : color.primary
+  const disabledPress = disabled || loading
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={[styles.container, styleContainer, style]}
+      disabled={disabledPress}
+      onPress={onPress}
+      {...rest}>
+      {loading ? (
+        <ActivityIndicator color={colorLoading} style={styles.icon} />
+      ) : iconName ? (
+        <Icon name={iconName} size={iconSize} color={iconColor} />
+      ) : (
+        ElementLeftToRender
+      )}
+      {text && (
+        <Text
+          color={colorText}
+          textAlign="center"
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          size={_fontSize}
+          fontWeight="500"
+          style={styleContent}>
+          {text}
+        </Text>
+      )}
+      {ElementRightToRender}
+    </TouchableOpacity>
+  )
+}
+
+export default Button

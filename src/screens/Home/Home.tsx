@@ -1,8 +1,8 @@
 import {
   FlatList,
+  Keyboard,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  StyleSheet,
   View
 } from 'react-native'
 import React, { useState } from 'react'
@@ -16,6 +16,8 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
+import { styles } from './Home.styles'
+import { NavigationService, Route } from 'navigation'
 
 const DATA = [
   {
@@ -76,6 +78,13 @@ const Home = () => {
     }
   }
 
+  const handleEndSearch = (keySearch: string) => {
+    if (!search) return
+    setSearch('')
+    Keyboard.dismiss()
+    NavigationService.push(Route.Search, { keySearch })
+  }
+
   const renderItem = ({ item, index }: any) => {
     const { id } = item
     const isVideo = index % 2 !== 0
@@ -94,6 +103,9 @@ const Home = () => {
           placeholder="search for username..."
           showClear
           iconName="search"
+          onSubmitEditing={() => handleEndSearch(search)}
+          onPressIcon={() => handleEndSearch(search)}
+          enablesReturnKeyAutomatically
           style={styles.input}
         />
       </Animated.View>
@@ -113,25 +125,3 @@ const Home = () => {
 }
 
 export default Home
-
-const styles = StyleSheet.create({
-  separator: {
-    height: space.l
-  },
-  containerInput: {
-    zIndex: 1
-  },
-  input: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    marginHorizontal: space.s,
-    marginVertical: space.s,
-    zIndex: 1
-  },
-  contentList: {
-    paddingTop: HEIGHT_NAVIGATION_BAR,
-    paddingBottom: space.m
-  }
-})

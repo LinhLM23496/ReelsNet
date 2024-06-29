@@ -23,4 +23,5 @@ export type InputProps = TextInputProps & {
   showClear?: boolean
   onClear?: () => void
   maxLength?: number
+  onPressIcon?: () => void
 }
