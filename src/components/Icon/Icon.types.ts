@@ -1,7 +1,8 @@
 import { IconSizeType } from 'themes'
+import { IconComponent } from './Icon'
 
 export type Props = {
-  name: 'arrow-left'
+  name: keyof typeof IconComponent
   size?: IconSizeType
   color?: string
 }

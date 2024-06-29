@@ -1,3 +1,5 @@
 export { default as Icon } from './Icon/Icon'
 export { default as Text } from './Text/Text'
 export { default as NavigationBar } from './NavigationBar/NavigationBar'
+export { default as SafeView } from './SafeView/SafeView'
+export { default as Row } from './Row/Row'

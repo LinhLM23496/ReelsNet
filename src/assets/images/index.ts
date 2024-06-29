@@ -1,3 +1,4 @@
 export default {
-  // empty: require('./empty.png')
+  logo: require('./logo.png'),
+  empty: require('./empty.png')
 }

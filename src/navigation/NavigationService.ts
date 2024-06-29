@@ -11,16 +11,7 @@ export type RootStackParamList = {
   Main: undefined
   Home: undefined
   Settings: undefined
-  Profile: undefined
-  BookDetail: { bookId: string }
-  Chapter: { chapterId: string; nameBook?: string; cover?: string }
-  ListBook: undefined
-  Login: undefined
-  SuggestedBook: undefined
-  SuggestedFunction: undefined
-  ListNewupdate: undefined
-  ListLike: undefined
-  Notification: undefined
+  CreatePost: undefined
   // Add more screens here
 }
 

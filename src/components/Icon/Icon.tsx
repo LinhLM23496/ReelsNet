@@ -1,4 +1,5 @@
 import React from 'react'
+import { Props } from './Icon.types'
 import {
   IconArrowLeft,
   IconClose,
@@ -7,12 +8,11 @@ import {
   IconSearch,
   IconSetting
 } from 'assets'
-import { Props } from './Icon.types'
 
-const IconComponent = {
+export const IconComponent = {
   'arrow-left': IconArrowLeft,
   plus: IconPlus,
-  settings: IconSetting,
+  setting: IconSetting,
   home: IconHome,
   search: IconSearch,
   close: IconClose
