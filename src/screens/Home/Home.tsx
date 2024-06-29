@@ -1,15 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectGlobal } from 'stores/global/global.selectors'
+import { NavigationBar, Text } from 'components'
 
-type Props = {}
-
-const Home = (props: Props) => {
-  const global = useSelector(selectGlobal)
-  console.log('global', global)
+const Home = () => {
   return (
     <View>
+      <NavigationBar title="Home" />
       <Text>Home</Text>
     </View>
   )

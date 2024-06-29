@@ -1,0 +1,6 @@
+export { default as IconArrowLeft } from './IconArrowLeft'
+export { default as IconSetting } from './IconSetting'
+export { default as IconHome } from './IconHome'
+export { default as IconSearch } from './IconSearch'
+export { default as IconClose } from './IconClose'
+export { default as IconPlus } from './IconPlus'
