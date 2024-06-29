@@ -167,8 +167,6 @@ export const avatarSize = {
 }
 
 export const DEFAULT_SNAP = Math.round(space.height * 0.6)
-
 export const BUTTON_ICON_SIZE = Math.round(iconSize.m + space.xs * 2)
-
 export const HEIGHT_BOTTOM_BAR = Math.round(48 * ratio)
-export const HEIGHT_NIVAGATION_BAR = Math.round(56 * ratio)
+export const HEIGHT_NAVIGATION_BAR = Math.round(56 * ratio)
