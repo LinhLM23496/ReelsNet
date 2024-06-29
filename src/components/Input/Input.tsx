@@ -14,6 +14,7 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
     iconName,
     iconSize,
     iconColor,
+    onPressIcon,
     inputStyle,
     ElementLeft,
     ElementRight,
@@ -52,7 +53,12 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
         {ElementLeft ? (
           ElementLeft
         ) : iconName ? (
-          <Icon name={iconName} size={iconSize} color={iconColor} />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            disabled={!onPressIcon}
+            onPress={onPressIcon}>
+            <Icon name={iconName} size={iconSize} color={iconColor} />
+          </TouchableOpacity>
         ) : null}
         <TextInput
           ref={inputRef}
@@ -80,7 +86,9 @@ export default Input
 
 const styles = StyleSheet.create({
   container: {
-    gap: space.xxs
+    gap: space.xxs,
+    flex: 1,
+    height: 'auto'
   },
   label: {
     marginLeft: space.s

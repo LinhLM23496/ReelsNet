@@ -12,6 +12,7 @@ export type RootStackParamList = {
   Home: undefined
   Settings: undefined
   CreatePost: undefined
+  Search: { keySearch: string }
   // Add more screens here
 }
 

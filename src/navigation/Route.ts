@@ -2,6 +2,7 @@ import Home from 'screens/Home/Home'
 import { RootStackParamList } from './NavigationService'
 import Settings from 'screens/Settings/Settings'
 import CreatePost from 'screens/CreatePost/CreatePost'
+import Search from 'screens/Search/Search'
 
 type RouteConfig = {
   [key in keyof RootStackParamList]: {
@@ -27,6 +28,10 @@ const Route: RouteConfig = {
   CreatePost: {
     name: 'CreatePost',
     component: CreatePost
+  },
+  Search: {
+    name: 'Search',
+    component: Search
   }
 }
 export default Route
