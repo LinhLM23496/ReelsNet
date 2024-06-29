@@ -1,79 +1,72 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# ReelsNet
 
-# Getting Started
+Project Structure Explanation
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Overview of Directory Structure:
 
-## Step 1: Start the Metro Server
+-`src`: Directory containing the source code.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+-`src/assets`: Contains files such as images, icons, fonts.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+-`src/components`: Contains files for components.
 
-```bash
-# using npm
-npm start
+-`src/constants`: Contains files for constants.
 
-# OR using Yarn
-yarn start
-```
+-`src/routes`: Contains files for routes.
 
-## Step 2: Start your Application
+-`src/navigation`: Contains files for setting up screens.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+-`src/screens`: Contains files for screens.
 
-### For Android
+-`src/utils`: Contains utility functions such as encryption, email sending, etc.
 
-```bash
-# using npm
-npm run android
+## Commands to Run the Project:
 
-# OR using Yarn
-yarn android
-```
+🥈 Initialize node_modules:
 
-### For iOS
+👉 `yarn`
 
-```bash
-# using npm
-npm run ios
+---
 
-# OR using Yarn
-yarn ios
-```
+🥈 Run the project in development environment:
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+👉 `yarn start`
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+👉 `yarn android`
 
-## Step 3: Modifying your App
+👉 `yarn ios`
 
-Now that you have successfully run the app, let's modify it.
+---
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+🥈 Build the TypeScript project to JavaScript for production:
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+👉 `yarn build:android`
 
-## Congratulations! :tada:
+🥈 Check ESLint / Prettier errors:
 
-You've successfully run and modified your React Native App. :partying_face:
+👉 `yarn lint`
 
-### Now what?
+👉 `npm run lint`
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+🥈 If you want ESLint to automatically fix errors, run:
+👉 `npm run lint:fix`
 
-# Troubleshooting
+🥈 Similarly, for Prettier, use:
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+👉 `npm run prettier`
 
-# Learn More
+👉 `npm run prettier:fix`
 
-To learn more about React Native, take a look at the following resources:
+#### 🥇 Some notes:
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Use Flipper to view logs.
+
+Since this project runs with TypeScript, when installing any library, make sure to check if it supports TypeScript. Some libraries on npm have built-in TypeScript support, while others require you to install the TypeScript definitions separately via @types/library-name.
+
+For example, to install expo-image-picker, you should do:
+
+👉 `yarn add expo-image-picker`
+
+👉 `yarn add -D @types/expo-image-picker`
+
+Thank read me!!! 🤪
