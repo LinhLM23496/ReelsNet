@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     zIndex: 1
   },
   contentList: {
-    paddingTop: HEIGHT_NAVIGATION_BAR,
+    paddingTop: HEIGHT_NAVIGATION_BAR + space.xs,
     paddingBottom: space.m
   }
 })

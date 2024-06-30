@@ -5,7 +5,8 @@ import Route from './Route'
 import BottomTabNavigator from './BottomTabNavigator'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>()
+const { Navigator, Screen, Group } =
+  createNativeStackNavigator<RootStackParamList>()
 
 const Main = () => {
   const initialRouteName = 'Main'
@@ -20,6 +21,14 @@ const Main = () => {
         }}>
         <Screen name={Route.Main.name} component={BottomTabNavigator} />
         <Screen {...Route.Search} />
+        <Group
+          screenOptions={{
+            presentation: 'modal',
+            animation: 'slide_from_bottom'
+          }}>
+          <Screen {...Route.CreatePost} />
+        </Group>
+        <Screen {...Route.CreatePostContent} />
       </Navigator>
     </NavigationContainer>
   )

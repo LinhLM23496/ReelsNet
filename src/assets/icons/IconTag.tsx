@@ -7,15 +7,18 @@ type Props = {
   color?: string
 }
 
-const IconPlus = ({ size = 'm', color = _color.black }: Props) => {
+const IconTag = ({ size = 'm', color = _color.black }: Props) => {
   const newSize = iconSize[size]
   return (
     <Svg height={newSize} width={newSize} viewBox="0 0 24 24" fill="none">
-      <G clip-path="url(#clip0_1_8081)">
-        <Path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill={color} />
+      <G clip-path="url(#clip0_18_16309)">
+        <Path
+          d="M19 9L20.25 6.25L23 5L20.25 3.75L19 1L17.75 3.75L15 5L17.75 6.25L19 9ZM11.5 9.5L9 4L6.5 9.5L1 12L6.5 14.5L9 20L11.5 14.5L17 12L11.5 9.5ZM19 15L17.75 17.75L15 19L17.75 20.25L19 23L20.25 20.25L23 19L20.25 17.75L19 15Z"
+          fill={color}
+        />
       </G>
       <Defs>
-        <ClipPath id="clip0_1_8081">
+        <ClipPath id="clip0_18_16309">
           <Rect width="24" height="24" fill="white" />
         </ClipPath>
       </Defs>
@@ -23,4 +26,4 @@ const IconPlus = ({ size = 'm', color = _color.black }: Props) => {
   )
 }
 
-export default IconPlus
+export default IconTag

@@ -9,6 +9,7 @@ export type InputRef = {
 }
 
 export type InputProps = TextInputProps & {
+  variant?: 'ghost' | 'filled'
   label?: string
   iconName?: keyof typeof IconComponent
   labelProps?: TextProps

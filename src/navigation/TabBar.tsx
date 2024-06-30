@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Keyboard, View, TouchableOpacity, StyleSheet } from 'react-native'
-// import { Dot, Icon, Text } from 'components'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { HEIGHT_BOTTOM_BAR, color, space } from 'themes'
 import { Icon } from 'components'
 import { IconComponent } from 'components/Icon/Icon'
+import NavigationService from './NavigationService'
+import Route from './Route'
+import { usePermission } from 'hooks'
 
 interface DetailTabProps {
   icon: keyof typeof IconComponent
@@ -28,6 +30,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation
 }) => {
+  const { requestMultiPermission } = usePermission()
   const [visit, setVisit] = useState(true)
 
   useEffect(() => {
@@ -59,15 +62,24 @@ const TabBar: React.FC<BottomTabBarProps> = ({
 
         const isFocused = state.index === index
 
-        const onPress = () => {
+        const onPress = async () => {
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true
           })
 
-          if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
+          const disabled = isFocused && event.defaultPrevented
+          if (disabled) return
+
+          if (label === 'CreatePost') {
+            try {
+              await requestMultiPermission(['library'])
+              NavigationService.push(Route.CreatePost)
+            } catch (error) {
+              console.log('error', error)
+            }
+          } else {
             navigation.navigate({
               name: route.name,
               params: route.params,

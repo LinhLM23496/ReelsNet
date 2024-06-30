@@ -1,14 +1,13 @@
 import React from 'react'
 import { TouchableOpacity, ActivityIndicator, ViewStyle } from 'react-native'
-import { color, colorRange } from 'themes'
+import { color, colorRange, space } from 'themes'
 import { Icon, Text } from 'components'
 import { IButtonProps } from './Button.types'
 import { styles } from './Button.styles'
-import { convertSpaceSize } from 'lib'
 
 function Button(props: IButtonProps) {
   const {
-    text,
+    title,
     onPress,
     variant = 'filled',
     iconName,
@@ -28,8 +27,8 @@ function Button(props: IButtonProps) {
     ...rest
   } = props
 
-  const spacing = convertSpaceSize(_spacing)
-  const borderRadius = convertSpaceSize(_borderRadius)
+  const spacing = space[_spacing]
+  const borderRadius = space[_borderRadius]
 
   const isFilled = variant === 'filled'
   const isGhost = variant === 'ghost'
@@ -58,8 +57,8 @@ function Button(props: IButtonProps) {
     : color.primary
   const width = isFullWidth ? '100%' : 'auto'
   const alignSelf = iconName ? 'center' : 'flex-start'
-  const aspectRatio = iconName && !text && !isFullWidth ? 1 : 'auto'
-  const paddingHorizontal = text ? spacing / 0.6 : iconName ? spacing : 0
+  const aspectRatio = iconName && !title && !isFullWidth ? 1 : 'auto'
+  const paddingHorizontal = title ? spacing / 0.6 : iconName ? spacing : 0
 
   const styleContainer: ViewStyle = {
     borderRadius,
@@ -88,7 +87,7 @@ function Button(props: IButtonProps) {
       ) : (
         ElementLeftToRender
       )}
-      {text && (
+      {title && (
         <Text
           color={colorText}
           textAlign="center"
@@ -97,7 +96,7 @@ function Button(props: IButtonProps) {
           size={_fontSize}
           fontWeight="500"
           style={styleContent}>
-          {text}
+          {title}
         </Text>
       )}
       {ElementRightToRender}

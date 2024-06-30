@@ -1,3 +1,4 @@
+import { IconComponent } from 'components/Icon/Icon'
 import { ReactNode } from 'react'
 import {
   GestureResponderEvent,
@@ -25,5 +26,6 @@ export type NavigationBarProps = {
   fontSize?: FontSizeType
   adjustsFontSizeToFit?: boolean
   absolute?: boolean
+  iconLeft?: keyof typeof IconComponent
   [key: string]: any
 }
