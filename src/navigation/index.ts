@@ -1,4 +1,4 @@
-import Main from './Main'
+import MainNavigation from './MainNavigation'
 import NavigationService, {
   RootStackParamList,
   ScreenProps
@@ -6,4 +6,4 @@ import NavigationService, {
 import Route from './Route'
 
 export type { RootStackParamList, ScreenProps }
-export { Main, NavigationService, Route }
+export { MainNavigation, NavigationService, Route }

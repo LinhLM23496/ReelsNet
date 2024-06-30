@@ -1,5 +1,5 @@
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { Main } from 'navigation'
+import { MainNavigation } from 'navigation'
 import React from 'react'
 import { StatusBar, StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -16,7 +16,7 @@ function App(): React.JSX.Element {
         <SafeAreaProvider>
           <ReduxProvider>
             <StatusBar translucent backgroundColor="transparent" />
-            <Main />
+            <MainNavigation />
           </ReduxProvider>
         </SafeAreaProvider>
       </BottomSheetModalProvider>
