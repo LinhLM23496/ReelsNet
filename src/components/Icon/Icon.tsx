@@ -4,8 +4,11 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconClose,
+  IconComment,
   IconCopy,
   IconFacebook,
+  IconHeart,
+  IconHistory,
   IconHome,
   IconLocation,
   IconMusic,
@@ -13,7 +16,8 @@ import {
   IconSearch,
   IconSetting,
   IconTag,
-  IconTagUser
+  IconTagUser,
+  IconView
 } from 'assets'
 
 export const IconComponent = {
@@ -29,7 +33,11 @@ export const IconComponent = {
   facebook: IconFacebook,
   music: IconMusic,
   tag: IconTag,
-  tagUser: IconTagUser
+  tagUser: IconTagUser,
+  view: IconView,
+  heart: IconHeart,
+  comment: IconComment,
+  history: IconHistory
 }
 
 const Icon = (props: Props) => {
