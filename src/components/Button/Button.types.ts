@@ -13,7 +13,7 @@ type ButtonVariantType = 'outline' | 'ghost' | 'filled'
 export interface IButtonProps extends TouchableOpacityProps {
   variant?: ButtonVariantType
   onPress: () => void
-  text?: string
+  title?: string
   iconName?: keyof typeof IconComponent
   iconSize?: IconSizeType
   iconColor?: string

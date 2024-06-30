@@ -14,8 +14,7 @@ export const color = {
   white: '#ffffff',
   black: '#000000',
   transparent: '#ffffff00',
-  dark: '#2a2f57',
-  darkIndigo: '#191448',
+  blur: '#ffffff70',
 
   // color result
   a: '#CD3645',

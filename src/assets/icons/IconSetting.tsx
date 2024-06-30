@@ -1,7 +1,6 @@
 import React from 'react'
 import { Path, Svg } from 'react-native-svg'
-import { IconSizeType, color as _color } from 'themes'
-import { convertIconSize } from 'lib'
+import { IconSizeType, color as _color, iconSize } from 'themes'
 
 type Props = {
   size?: IconSizeType
@@ -9,7 +8,7 @@ type Props = {
 }
 
 const IconSetting = ({ size = 'm', color = _color.black }: Props) => {
-  const newSize = convertIconSize(size)
+  const newSize = iconSize[size]
   return (
     <Svg height={newSize} width={newSize} viewBox="0 0 24 24" fill="none">
       <Path

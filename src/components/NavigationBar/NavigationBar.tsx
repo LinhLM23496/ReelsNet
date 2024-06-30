@@ -1,6 +1,5 @@
 import React, { FC, useCallback } from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import { space } from 'themes'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { NavigationService } from 'navigation'
 import { Icon, Text } from 'components'
@@ -25,7 +24,8 @@ const NavigationBar: FC<NavigationBarProps> = (props) => {
     adjustsFontSizeToFit,
     absolute,
     onPressTitle,
-    transparent
+    transparent,
+    iconLeft
   } = props
 
   const { top } = useSafeAreaInsets()
@@ -60,7 +60,7 @@ const NavigationBar: FC<NavigationBarProps> = (props) => {
     <View
       style={[
         styles.container,
-        { backgroundColor, paddingTop: top + space.s },
+        { backgroundColor, marginTop: top },
         containerStyle,
         absolute ? styles.absolute : {},
         transparent ? styles.transparent : {}
@@ -73,7 +73,7 @@ const NavigationBar: FC<NavigationBarProps> = (props) => {
             activeOpacity={0.8}
             onPress={onBackPress ?? NavigationService.goBack}
             style={[styles.buttonAccessory, buttonStyle]}>
-            <Icon name="arrow-left" />
+            <Icon name={iconLeft ?? 'arrow-left'} />
           </TouchableOpacity>
         ) : null}
       </View>

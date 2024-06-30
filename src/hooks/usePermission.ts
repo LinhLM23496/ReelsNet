@@ -20,7 +20,7 @@ const _PERMISSIONS: Record<
   },
   library: {
     ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
-    android: PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE
+    android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
   },
   location: {
     ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
@@ -58,12 +58,20 @@ const usePermission = () => {
 
   const requestMultiPermission = async (permissionArr: TMultiPermission[]) => {
     try {
+      const isNotRequest =
+        !isIOS && parseInt(String(Platform.Version), 10) >= 33
       await checkMultiPermission(permissionArr)
 
-      const permission = permissionArr.map((r) => _PERMISSIONS[r][Platform.OS])
+      const permission = permissionArr
+        .filter((p) => !(p === 'library' && isNotRequest))
+        .map((r) => _PERMISSIONS[r][Platform.OS])
+
+      if (!permission.length) return true
+
       const resultRequest = isIOS
         ? await requestMultiple(permission)
         : await PermissionsAndroid.requestMultiple(permission)
+
       const resultRequestArr = Object.values(resultRequest)
 
       if (

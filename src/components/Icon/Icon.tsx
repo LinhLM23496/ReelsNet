@@ -2,11 +2,18 @@ import React from 'react'
 import { Props } from './Icon.types'
 import {
   IconArrowLeft,
+  IconArrowRight,
   IconClose,
+  IconCopy,
+  IconFacebook,
   IconHome,
+  IconLocation,
+  IconMusic,
   IconPlus,
   IconSearch,
-  IconSetting
+  IconSetting,
+  IconTag,
+  IconTagUser
 } from 'assets'
 
 export const IconComponent = {
@@ -15,7 +22,14 @@ export const IconComponent = {
   setting: IconSetting,
   home: IconHome,
   search: IconSearch,
-  close: IconClose
+  close: IconClose,
+  copy: IconCopy,
+  location: IconLocation,
+  'arrow-right': IconArrowRight,
+  facebook: IconFacebook,
+  music: IconMusic,
+  tag: IconTag,
+  tagUser: IconTagUser
 }
 
 const Icon = (props: Props) => {

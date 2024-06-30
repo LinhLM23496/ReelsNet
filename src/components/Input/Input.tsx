@@ -1,11 +1,13 @@
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { TextInput, TouchableOpacity, View } from 'react-native'
 import React, { Ref, forwardRef, useImperativeHandle, useRef } from 'react'
 import { Icon, Row, Text } from 'components'
 import { color, colorRange, space } from 'themes'
 import { InputProps, InputRef } from './Input.types'
+import { styles } from './Input.styles'
 
 const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
   const {
+    variant = 'filled',
     label,
     labelProps,
     labelStyle,
@@ -25,6 +27,8 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
   } = props
 
   const inputRef = useRef<TextInput>(null)
+  const backgroundColor = variant === 'filled' ? color.white : color.transparent
+  const paddingTop = props.multiline ? space.xxs : 0
 
   useImperativeHandle(ref, () => ({
     clear: () => {
@@ -49,7 +53,7 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
           {label}
         </Text>
       ) : null}
-      <Row style={[styles.content, contentStyle]}>
+      <Row style={[styles.content, { backgroundColor }, contentStyle]}>
         {ElementLeft ? (
           ElementLeft
         ) : iconName ? (
@@ -63,10 +67,10 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
         <TextInput
           ref={inputRef}
           {...rest}
-          textAlignVertical={'center'}
+          textAlignVertical={props.multiline ? 'top' : 'center'}
           maxLength={maxLength}
           placeholderTextColor={colorRange.gray[400]}
-          style={[styles.inputStyle, inputStyle]}
+          style={[styles.inputStyle, { paddingTop }, inputStyle]}
         />
         {showClear && props?.value?.length ? (
           <TouchableOpacity
@@ -83,29 +87,3 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
 })
 
 export default Input
-
-const styles = StyleSheet.create({
-  container: {
-    gap: space.xxs,
-    flex: 1,
-    height: 'auto'
-  },
-  label: {
-    marginLeft: space.s
-  },
-  content: {
-    paddingHorizontal: space.xxs,
-    marginVertical: 0,
-    borderRadius: space.xs,
-    backgroundColor: color.white,
-    alignItems: 'center'
-  },
-  inputStyle: {
-    flex: 1,
-    height: 'auto',
-    paddingVertical: space.xxs / 2
-  },
-  iconRight: {
-    paddingLeft: space.s
-  }
-})

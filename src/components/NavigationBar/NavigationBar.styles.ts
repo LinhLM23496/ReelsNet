@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native'
-import { color, fontSize, space } from 'themes'
+import { HEIGHT_NAVIGATION_BAR, color, fontSize, space } from 'themes'
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: space.s
+    height: HEIGHT_NAVIGATION_BAR,
+    marginBottom: space.xs
   },
   title: {
     fontWeight: 'bold',
