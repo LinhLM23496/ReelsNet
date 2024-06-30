@@ -2,15 +2,21 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { avatarSize, color, space } from 'themes'
 import { Text } from 'components'
+import { UserData } from 'api/users/types'
 
-const sourceAvatar =
-  'https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/04/anh-avatar-dep-cho-con-gai-ngau-1.jpg'
+type Props = {
+  data: UserData
+}
 
-const UserItem = () => {
+const UserItem = ({ data }: Props) => {
+  const { profile_pic_url, username } = data
+
   return (
     <TouchableOpacity activeOpacity={0.8} style={styles.container}>
-      <Image source={{ uri: sourceAvatar }} style={styles.avatar} />
-      <Text>UserItem</Text>
+      {profile_pic_url ? (
+        <Image source={{ uri: profile_pic_url }} style={styles.avatar} />
+      ) : null}
+      <Text>{username}</Text>
     </TouchableOpacity>
   )
 }

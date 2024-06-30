@@ -1,26 +1,51 @@
-import { FlatList, Keyboard, StyleSheet, View } from 'react-native'
-import React, { FC, useState } from 'react'
+import {
+  ActivityIndicator,
+  FlatList,
+  Keyboard,
+  StyleSheet,
+  View
+} from 'react-native'
+import React, { FC, useEffect, useState } from 'react'
 import { NavigationService, ScreenProps } from 'navigation'
 import { Button, Input, Row, SafeView } from 'components'
 import UserItem from './components/UserItem'
 import { space } from 'themes'
+import { usersAPI } from 'api'
+import { UserData } from 'api/users/types'
 
 const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
   const keySearch = route.params.keySearch
-
   const [search, setSearch] = useState(keySearch)
+  const [data, setData] = useState<UserData[]>([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    fetchData(keySearch)
+  }, [])
+
+  const fetchData = async (search_query: string) => {
+    try {
+      setLoading(true)
+      const res = await usersAPI.searchUsers({ search_query })
+      setData(res)
+    } catch (error) {
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleEndSearch = (text: string) => {
     if (!text) return
     Keyboard.dismiss()
+    fetchData(text.trim())
   }
 
   const handleBack = () => {
     NavigationService.goBack()
   }
 
-  const renderItem = ({ index }: any) => {
-    return <UserItem key={index.toString()} />
+  const renderItem = ({ item }: { item: UserData }) => {
+    return <UserItem key={item.id} data={item} />
   }
 
   const renderSeparator = () => {
@@ -46,12 +71,16 @@ const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
           enablesReturnKeyAutomatically
         />
       </Row>
-      <FlatList
-        data={new Array(50).fill(0)}
-        renderItem={renderItem}
-        ItemSeparatorComponent={renderSeparator}
-        contentContainerStyle={styles.contentList}
-      />
+      {!loading ? (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          ItemSeparatorComponent={renderSeparator}
+          contentContainerStyle={styles.contentList}
+        />
+      ) : (
+        <ActivityIndicator size={'large'} style={styles.loading} />
+      )}
     </SafeView>
   )
 }
@@ -71,5 +100,10 @@ const styles = StyleSheet.create({
   },
   contentList: {
     paddingHorizontal: space.s
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
