@@ -1,9 +1,13 @@
-import Home from 'screens/Home/Home'
+import { lazy } from 'react'
 import { RootStackParamList } from './NavigationService'
+import Home from 'screens/Home/Home'
 import Settings from 'screens/Settings/Settings'
-import CreatePost from 'screens/CreatePost/CreatePost'
-import Search from 'screens/Search/Search'
-import CreatePostContent from 'screens/CreatePostContent/CreatePostContent'
+
+const Search = lazy(() => import('screens/Search/Search'))
+const CreatePost = lazy(() => import('screens/CreatePost/CreatePost'))
+const CreatePostContent = lazy(
+  () => import('screens/CreatePostContent/CreatePostContent')
+)
 
 type RouteConfig = {
   [key in keyof RootStackParamList]: {
