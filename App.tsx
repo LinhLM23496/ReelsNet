@@ -1,4 +1,5 @@
 import Provider from 'Provider'
+import { ModalGlobal } from 'components'
 import { MainNavigation } from 'navigation'
 import React from 'react'
 import { StatusBar } from 'react-native'
@@ -11,6 +12,7 @@ function App(): React.JSX.Element {
     <Provider>
       <StatusBar translucent backgroundColor="transparent" />
       <MainNavigation />
+      <ModalGlobal />
     </Provider>
   )
 }
