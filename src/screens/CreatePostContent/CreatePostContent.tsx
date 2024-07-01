@@ -44,7 +44,9 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
   })
 
   const getLocaltion = () => {
-    // TODO: get location
+    // TODO: navigation screen add location or turn on bottomsheet
+    // TODO: get current location of user
+    // TODO: or, navigation screen add Location (search address and select location for form)
     console.log('getLocaltion')
   }
 
@@ -55,11 +57,13 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
 
   const shareFb = () => {
     // TODO: share facebook
+    // TODO: turn on link on facebook to account
     console.log('shareFb')
   }
 
   const addTagUser = () => {
     // TODO: add tag user
+    // TODO: navigation screen add Tag user => select friend on list
     console.log('addTagUser')
   }
 
@@ -91,6 +95,8 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
       title: 'Add Music',
       icon: 'music',
       variant: 'navigation' // TODO: add music
+      // TODO: navigation screen add music or turn on bottomsheet
+      // TODO: search music and select music
     },
     {
       id: '4',
@@ -121,6 +127,8 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
 
   const onSubmit = (data: PostParams) => {
     console.log('data', data)
+    // TODO: create formData and call api create Post
+    // TODO: or, send media to server => get uri media. create Data and call api create Post
   }
 
   const renderItem = (item: any) => {

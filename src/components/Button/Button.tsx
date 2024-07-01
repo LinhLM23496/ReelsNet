@@ -1,9 +1,10 @@
 import React from 'react'
 import { TouchableOpacity, ActivityIndicator, ViewStyle } from 'react-native'
 import { color, colorRange, space } from 'themes'
-import { Icon, Text } from 'components'
 import { IButtonProps } from './Button.types'
 import { styles } from './Button.styles'
+import Icon from 'components/Icon/Icon'
+import Text from 'components/Text/Text'
 
 function Button(props: IButtonProps) {
   const {

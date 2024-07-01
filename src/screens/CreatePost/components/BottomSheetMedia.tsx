@@ -8,14 +8,17 @@ import React, {
   useState
 } from 'react'
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet'
-import { color } from 'themes'
+import { color, space } from 'themes'
 import { Ratio } from 'components'
 import { useDidMountEffect, useGallery } from 'hooks'
 import { ImageType } from 'hooks/useGallery'
 import { styles } from './BottomSheetMedia.styles'
 import { BSMediaRef, Props } from './BottomSheetMedia.types'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
+  const { bottom } = useSafeAreaInsets()
+  const paddingBottom = bottom + space.m
   const { isMultiple, currentSelect, changeCurrentSelect } = props
   const snapPoints = ['40%']
   const bottomSheetRef = useRef<BottomSheet>(null)
@@ -125,6 +128,7 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
               />
             ) : null
           }
+          contentContainerStyle={{ paddingBottom }}
         />
       ) : (
         <ActivityIndicator

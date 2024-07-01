@@ -3,6 +3,7 @@ import { Props } from './Icon.types'
 import {
   IconArrowLeft,
   IconArrowRight,
+  IconCamera,
   IconClose,
   IconComment,
   IconCopy,
@@ -37,7 +38,8 @@ export const IconComponent = {
   view: IconView,
   heart: IconHeart,
   comment: IconComment,
-  history: IconHistory
+  history: IconHistory,
+  camera: IconCamera
 }
 
 const Icon = (props: Props) => {
