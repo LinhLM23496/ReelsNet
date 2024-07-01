@@ -7,19 +7,27 @@ import { useToggle } from 'hooks'
 import { ImageType } from 'hooks/useGallery'
 import { BSMediaRef } from './components/BottomSheetMedia.types'
 import { NavigationService, Route } from 'navigation'
+import CameraView from './components/CameraView'
+import { CameraRef } from './components/CameraView.types'
 
 const CreatePost = () => {
   const mediaRef = useRef<BSMediaRef>(null)
+  const cameraRef = useRef<CameraRef>(null)
   const [isMultiple, setIsMultiple] = useToggle(false)
   const [currentSelect, setCurrentSelect] = useState<ImageType>()
   const handleCamera = () => {
-    // TODO: camera
+    cameraRef.current?.present()
   }
 
   const handleContinue = () => {
     const selected = mediaRef.current?.getSelected()
     if (!selected || !selected?.length) return
     NavigationService.push(Route.CreatePostContent, { media: selected })
+  }
+
+  const onTakeCamera = async (photo: ImageType) => {
+    if (!photo) return
+    NavigationService.push(Route.CreatePostContent, { media: [photo] })
   }
 
   return (
@@ -68,6 +76,7 @@ const CreatePost = () => {
         currentSelect={currentSelect as ImageType}
         changeCurrentSelect={setCurrentSelect}
       />
+      <CameraView ref={cameraRef} onDone={onTakeCamera} />
     </View>
   )
 }
