@@ -28,7 +28,8 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
     isLoading,
     isLoadingNextPage,
     hasNextPage,
-    loadNextPagePictures
+    loadNextPagePictures,
+    getUnloadedPictures
   } = useGallery({ assetType: 'All' })
 
   useEffect(() => {
@@ -49,7 +50,8 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
   }, [isMultiple])
 
   useImperativeHandle(ref, () => ({
-    getSelected: () => select
+    getSelected: () => select,
+    refresh: getUnloadedPictures
   }))
 
   const renderMedia = ({ item }: { item: ImageType }) => {

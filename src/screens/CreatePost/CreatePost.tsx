@@ -3,20 +3,26 @@ import React, { useRef, useState } from 'react'
 import { Button, NavigationBar, Row, Text } from 'components'
 import { color, space } from 'themes'
 import BottomSheetMedia from './components/BottomSheetMedia'
-import { useToggle } from 'hooks'
+import { usePermission, useToggle } from 'hooks'
 import { ImageType } from 'hooks/useGallery'
 import { BSMediaRef } from './components/BottomSheetMedia.types'
 import { NavigationService, Route } from 'navigation'
 import CameraView from './components/CameraView'
 import { CameraRef } from './components/CameraView.types'
+import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 
 const CreatePost = () => {
+  const { requestMultiPermission } = usePermission()
   const mediaRef = useRef<BSMediaRef>(null)
   const cameraRef = useRef<CameraRef>(null)
   const [isMultiple, setIsMultiple] = useToggle(false)
   const [currentSelect, setCurrentSelect] = useState<ImageType>()
   const handleCamera = () => {
-    cameraRef.current?.present()
+    requestMultiPermission(['camera']).then((value) => {
+      value && cameraRef.current?.present()
+    })
+
+    // TODO: record video
   }
 
   const handleContinue = () => {
@@ -27,7 +33,12 @@ const CreatePost = () => {
 
   const onTakeCamera = async (photo: ImageType) => {
     if (!photo) return
-    NavigationService.push(Route.CreatePostContent, { media: [photo] })
+    cameraRef.current?.close()
+    CameraRoll.saveAsset(photo.uri).then((photoSave) => {
+      mediaRef.current?.refresh()
+      const image = photoSave.node.image as unknown as ImageType
+      setCurrentSelect(image)
+    })
   }
 
   return (

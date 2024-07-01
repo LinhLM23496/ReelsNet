@@ -10,7 +10,6 @@ import { isIOS } from 'lib'
 import useDidMountEffect from './useDidMountEffect '
 
 export type ImageType = {
-  id: string
   uri: string
   width: number
   height: number
@@ -35,6 +34,7 @@ type GalleryLogic = {
   isLoadingNextPage: boolean
   isReloading: boolean
   hasNextPage: boolean
+  getUnloadedPictures: () => void
 }
 
 const isAboveIOS14 = isIOS && parseInt(String(Platform.Version), 10) >= 14
@@ -197,7 +197,8 @@ const useGallery = (props?: GalleryOptions): GalleryLogic => {
     isLoading,
     isLoadingNextPage,
     isReloading,
-    hasNextPage
+    hasNextPage,
+    getUnloadedPictures
   }
 }
 

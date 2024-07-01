@@ -33,6 +33,7 @@ Reanimated.addWhitelistedNativeProps({
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera)
 
 const CameraView = forwardRef((props: Props, ref: Ref<CameraRef>) => {
+  // TODO: record video
   const { onDone, onClose } = props
   const { bottom } = useSafeAreaInsets()
 
@@ -119,7 +120,6 @@ const CameraView = forwardRef((props: Props, ref: Ref<CameraRef>) => {
       const filename = new Date().getTime().toString() + extension
 
       onDone({
-        id: photo.path,
         uri: photo.path,
         width: photo.width,
         height: photo.height,

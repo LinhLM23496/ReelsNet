@@ -7,7 +7,7 @@ import {
 } from 'react-native-permissions'
 
 const _PERMISSIONS: Record<
-  'camera' | 'microphone' | 'library' | 'location',
+  'camera' | 'microphone' | 'library' | 'location' | 'photos' | 'media',
   any
 > = {
   camera: {
@@ -25,6 +25,14 @@ const _PERMISSIONS: Record<
   location: {
     ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
     android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+  },
+  photos: {
+    ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+    android: PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+  },
+  media: {
+    ios: PERMISSIONS.IOS.MEDIA_LIBRARY,
+    android: PERMISSIONS.ANDROID.READ_MEDIA_VIDEO
   }
 }
 
@@ -58,13 +66,19 @@ const usePermission = () => {
 
   const requestMultiPermission = async (permissionArr: TMultiPermission[]) => {
     try {
-      const isNotRequest =
-        !isIOS && parseInt(String(Platform.Version), 10) >= 33
+      const isRequestLibrayForAndroid =
+        !isIOS &&
+        parseInt(String(Platform.Version), 10) >= 33 &&
+        permissionArr.includes('library')
+
+      if (isRequestLibrayForAndroid) {
+        const removeLibrary = permissionArr.filter((i) => i !== 'library')
+        permissionArr = [...removeLibrary, 'photos', 'media']
+      }
+      console.log('permissionArr', permissionArr)
       await checkMultiPermission(permissionArr)
 
-      const permission = permissionArr
-        .filter((p) => !(p === 'library' && isNotRequest))
-        .map((r) => _PERMISSIONS[r][Platform.OS])
+      const permission = permissionArr.map((r) => _PERMISSIONS[r][Platform.OS])
 
       if (!permission.length) return true
 
@@ -73,7 +87,7 @@ const usePermission = () => {
         : await PermissionsAndroid.requestMultiple(permission)
 
       const resultRequestArr = Object.values(resultRequest)
-
+      console.log('resultRequestArr', resultRequestArr)
       if (
         resultRequestArr.includes('blocked') ||
         resultRequestArr.includes('denied') ||
