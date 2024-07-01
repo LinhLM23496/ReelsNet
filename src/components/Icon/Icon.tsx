@@ -8,11 +8,13 @@ import {
   IconComment,
   IconCopy,
   IconFacebook,
+  IconFlash,
   IconHeart,
   IconHistory,
   IconHome,
   IconLocation,
   IconMusic,
+  IconPlipCamera,
   IconPlus,
   IconSearch,
   IconSetting,
@@ -39,7 +41,9 @@ export const IconComponent = {
   heart: IconHeart,
   comment: IconComment,
   history: IconHistory,
-  camera: IconCamera
+  camera: IconCamera,
+  takePhoto: IconPlipCamera,
+  flash: IconFlash
 }
 
 const Icon = (props: Props) => {
