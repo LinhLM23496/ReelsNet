@@ -7,6 +7,7 @@ import { IconComponent } from 'components/Icon/Icon'
 import NavigationService from './NavigationService'
 import Route from './Route'
 import { usePermission } from 'hooks'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 interface DetailTabProps {
   icon: keyof typeof IconComponent
@@ -30,6 +31,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation
 }) => {
+  const { bottom } = useSafeAreaInsets()
   const { requestMultiPermission } = usePermission()
   const [visit, setVisit] = useState(true)
 
@@ -48,7 +50,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
   }, [])
 
   return visit ? (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: bottom }]}>
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key]
         const label =

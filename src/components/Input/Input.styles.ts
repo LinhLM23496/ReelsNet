@@ -13,8 +13,10 @@ export const styles = StyleSheet.create({
   content: {
     paddingHorizontal: space.xxs,
     marginVertical: 0,
+    paddingVertical: space.xxs,
     borderRadius: space.xs,
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: space.xxs
   },
   inputStyle: {
     flex: 1,

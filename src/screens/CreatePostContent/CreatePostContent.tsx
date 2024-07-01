@@ -75,7 +75,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
       title: 'Gắn thẻ người khác',
       icon: 'tagUser',
       variant: 'navigation',
-      action: () => addTagUser() // add tag user
+      action: () => addTagUser()
     },
     {
       id: '2',
@@ -90,7 +90,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
       name: 'music',
       title: 'Add Music',
       icon: 'music',
-      variant: 'navigation'
+      variant: 'navigation' // TODO: add music
     },
     {
       id: '4',
@@ -99,7 +99,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
       subTitle: 'Tag people in the photo by AI',
       icon: 'tag',
       variant: 'toggle',
-      action: () => toggleAI() // toggle Add Tag by AI
+      action: () => toggleAI()
     },
     {
       id: '5',
@@ -107,7 +107,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
       title: 'Share on Facebook',
       icon: 'facebook',
       variant: 'toggle',
-      action: () => shareFb() // toggle Add Tag by AI
+      action: () => shareFb()
     },
     {
       id: '6',
@@ -115,7 +115,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
       title: 'Advanced settings',
       icon: 'setting',
       variant: 'function',
-      action: () => bottomSheetRef.current?.present() // bottomSheet Advanced Settings
+      action: () => bottomSheetRef.current?.present()
     }
   ]
 
@@ -151,7 +151,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
                 true: color.primary
               }}
               thumbColor={color.white}
-              ios_backgroundColor={color.white}
+              ios_backgroundColor={color.gray}
               onValueChange={(value) => onChange(value)}
               value={value}
             />

@@ -26,9 +26,11 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
     ...rest
   } = props
 
+  const isMultiline = props.multiline
+  const minHeight = isMultiline ? (props?.numberOfLines ?? 1) * space.xl : 0
   const inputRef = useRef<TextInput>(null)
   const backgroundColor = variant === 'filled' ? color.white : color.transparent
-  const paddingTop = props.multiline ? space.xxs : 0
+  const paddingTop = isMultiline ? space.xxs : 0
 
   useImperativeHandle(ref, () => ({
     clear: () => {
@@ -44,7 +46,7 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
   }
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, { minHeight }, style]}>
       {label ? (
         <Text
           fontWeight="600"
@@ -67,7 +69,7 @@ const Input = forwardRef((props: InputProps, ref: Ref<InputRef>) => {
         <TextInput
           ref={inputRef}
           {...rest}
-          textAlignVertical={props.multiline ? 'top' : 'center'}
+          textAlignVertical={isMultiline ? 'top' : 'center'}
           maxLength={maxLength}
           placeholderTextColor={colorRange.gray[400]}
           style={[styles.inputStyle, { paddingTop }, inputStyle]}

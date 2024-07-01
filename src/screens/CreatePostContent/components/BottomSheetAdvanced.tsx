@@ -9,6 +9,7 @@ import { Row, Text } from 'components'
 import { color, colorRange, space } from 'themes'
 import { UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { PostParams } from '../CreatePostContent.types'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type Props = {
   bottomSheetRef: React.RefObject<BottomSheetModal>
@@ -23,6 +24,8 @@ type DataType = {
 }
 
 const BottomSheetAdvanced = ({ watch, setValue, bottomSheetRef }: Props) => {
+  const { bottom } = useSafeAreaInsets()
+  const paddingBottom = bottom + space.m
   const DATA_ADVANCE: DataType[] = [
     {
       id: '1-advance',
@@ -57,7 +60,7 @@ const BottomSheetAdvanced = ({ watch, setValue, bottomSheetRef }: Props) => {
             true: color.primary
           }}
           thumbColor={color.white}
-          ios_backgroundColor={color.white}
+          ios_backgroundColor={color.gray}
           onValueChange={handleSwitch}
           value={value}
         />
@@ -82,8 +85,8 @@ const BottomSheetAdvanced = ({ watch, setValue, bottomSheetRef }: Props) => {
       enableDynamicSizing
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}>
-      <BottomSheetView>
-        <Text size="l" textAlign="center">
+      <BottomSheetView style={{ paddingBottom }}>
+        <Text size="xl" fontWeight="bold" textAlign="center">
           Advanced settings
         </Text>
         {DATA_ADVANCE.map(renderAdvancedSetting)}

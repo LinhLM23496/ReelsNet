@@ -20,5 +20,13 @@ export const styles = StyleSheet.create({
   contentList: {
     paddingTop: HEIGHT_NAVIGATION_BAR + space.xs,
     paddingBottom: space.m
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loadingMore: {
+    marginTop: space.xl
   }
 })

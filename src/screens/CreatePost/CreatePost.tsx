@@ -73,7 +73,6 @@ export default CreatePost
 const styles = StyleSheet.create({
   container: {
     flex: 1
-    // backgroundColor: color.white
   },
   buttonContinue: {
     flex: 1,
