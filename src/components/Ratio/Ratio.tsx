@@ -1,9 +1,9 @@
 import { View } from 'react-native'
 import React from 'react'
 import { color, iconSize, space } from 'themes'
-import { Text } from 'components'
 import { Props } from './Ratio.types'
 import { styles } from './Ratio.styles'
+import Text from 'components/Text/Text'
 
 const Ratio = (props: Props) => {
   const { active, number, size: _size = 's', fontSize = 's', style } = props
