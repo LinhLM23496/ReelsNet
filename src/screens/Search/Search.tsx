@@ -14,7 +14,7 @@ import { usersAPI } from 'api'
 import { UserData } from 'api/users/types'
 import EmptyView from './components/EmptyView'
 import { useDispatch } from 'react-redux'
-import { closeModal, onModal } from 'stores/modal/modal.action'
+import { closeModal, onModal } from 'stores/modal'
 
 const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
   const keySearch = route.params.keySearch
@@ -37,7 +37,7 @@ const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
         onModal({
           display: true,
           title: 'Error',
-          subTitle: 'An error occurred, please try again later'
+          subTitle: 'An error occurred, please try again later.'
         })
       )
     } finally {

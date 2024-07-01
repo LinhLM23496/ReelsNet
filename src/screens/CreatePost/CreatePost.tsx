@@ -11,7 +11,7 @@ import CameraView from './components/CameraView'
 import { CameraRef } from './components/CameraView.types'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import { useDispatch } from 'react-redux'
-import { onModal } from 'stores/modal/modal.action'
+import { onModal } from 'stores/modal'
 
 const CreatePost = () => {
   const dispatch = useDispatch()

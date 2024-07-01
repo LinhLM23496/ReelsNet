@@ -8,7 +8,6 @@ import { ImageType } from 'hooks/useGallery'
 
 export type RootStackParamList = {
   Splash: undefined
-  // OnBoarding: undefined
   Main: undefined
   Home: undefined
   Settings: undefined
