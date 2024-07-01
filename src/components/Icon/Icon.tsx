@@ -4,6 +4,7 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconCamera,
+  IconCheck,
   IconClose,
   IconComment,
   IconCopy,
@@ -22,6 +23,7 @@ import {
   IconTagUser,
   IconView
 } from 'assets'
+import { View } from 'react-native'
 
 export const IconComponent = {
   'arrow-left': IconArrowLeft,
@@ -43,13 +45,18 @@ export const IconComponent = {
   history: IconHistory,
   camera: IconCamera,
   takePhoto: IconPlipCamera,
-  flash: IconFlash
+  flash: IconFlash,
+  check: IconCheck
 }
 
 const Icon = (props: Props) => {
-  const { name, ...rest } = props
+  const { name, style, ...rest } = props
   const Element = IconComponent[name]
-  return <Element {...rest} />
+  return (
+    <View style={style}>
+      <Element {...rest} />
+    </View>
+  )
 }
 
 export default Icon

@@ -19,8 +19,8 @@ type Props = {
 }
 
 const PostItem = ({ data, active, isVideo }: Props) => {
-  const { user, video_url, image_versions, is_video } = data
-  const { username, full_name, profile_pic_url } = user ?? {}
+  const { user, video_url, image_versions, is_video, thumbnail_url } = data
+  const { username, full_name, profile_pic_url, is_verified } = user ?? {}
   const videoRef = useRef<VideoRef>(null)
   const [isVideoEnd, setIsVideoEnd] = useState(false)
 
@@ -49,6 +49,7 @@ const PostItem = ({ data, active, isVideo }: Props) => {
             source={{ uri: video_url }}
             paused={!active}
             onEnd={() => setIsVideoEnd(true)}
+            poster={thumbnail_url ?? undefined}
             style={styles.video}
           />
         ) : (
@@ -64,7 +65,17 @@ const PostItem = ({ data, active, isVideo }: Props) => {
 
         <Row justifyContent="space-between" gap="s" style={styles.user}>
           {profile_pic_url ? (
-            <Image source={{ uri: profile_pic_url }} style={styles.avatar} />
+            <View>
+              <Image source={{ uri: profile_pic_url }} style={styles.avatar} />
+              {is_verified ? (
+                <Icon
+                  name="check"
+                  color={color.success}
+                  size="s"
+                  style={styles.iconCheck}
+                />
+              ) : null}
+            </View>
           ) : null}
           <Text fontWeight="500">{full_name ?? username}</Text>
         </Row>
@@ -121,5 +132,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  iconCheck: {
+    position: 'absolute',
+    bottom: -space.xxs,
+    right: -space.xxs
   }
 })

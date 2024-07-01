@@ -6,13 +6,17 @@ import { UserData } from 'api/users/types'
 
 type Props = {
   data: UserData
+  onPress: () => void
 }
 
-const UserItem = ({ data }: Props) => {
+const UserItem = ({ data, onPress }: Props) => {
   const { profile_pic_url, username } = data
 
   return (
-    <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={onPress}
+      style={styles.container}>
       {profile_pic_url ? (
         <Image source={{ uri: profile_pic_url }} style={styles.avatar} />
       ) : null}
@@ -21,7 +25,7 @@ const UserItem = ({ data }: Props) => {
   )
 }
 
-export default UserItem
+export default React.memo(UserItem)
 
 const styles = StyleSheet.create({
   container: {
