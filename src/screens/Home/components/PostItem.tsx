@@ -74,8 +74,8 @@ const PostItem = ({ data, active, isVideo }: Props) => {
             onPress={handlePlayAgain}
             style={styles.playAgain}>
             <Icon name="history" size="xl" color={color.primary} />
-            <Text color={color.primary} textAlign="center">
-              play again
+            <Text fontWeight="500" color={color.primary} textAlign="center">
+              Play again
             </Text>
           </TouchableOpacity>
         ) : null}

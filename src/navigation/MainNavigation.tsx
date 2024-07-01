@@ -24,7 +24,6 @@ const MainNavigation = () => {
           <Screen {...Route.Search} />
           <Group
             screenOptions={{
-              presentation: 'modal',
               animation: 'slide_from_bottom'
             }}>
             <Screen {...Route.CreatePost} />

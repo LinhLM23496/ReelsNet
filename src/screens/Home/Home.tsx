@@ -9,7 +9,6 @@ import {
 import React, { useCallback, useEffect, useState } from 'react'
 import PostItem from './components/PostItem'
 import { Input, SafeView } from 'components'
-import { HEIGHT_NAVIGATION_BAR, space } from 'themes'
 import Animated, {
   Extrapolation,
   interpolate,
@@ -23,6 +22,7 @@ import { PostData } from 'api/posts/types'
 import { postsAPI } from 'api'
 import { useFocusEffect } from '@react-navigation/native'
 
+const SCROLL_THRESHOLD = 20
 const Home = () => {
   const [viewableItems, setViewableItems] = useState('')
   const [search, setSearch] = useState('')
@@ -32,6 +32,7 @@ const Home = () => {
   const [loadingMore, setLoadingMore] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
   const [paging, setPaging] = useState<string | null>()
+  let lastOffsetY = 0
 
   useEffect(() => {
     fetchData()
@@ -74,24 +75,19 @@ const Home = () => {
   const onViewableItemsChanged = ({ viewableItems }: any) => {
     setViewableItems(viewableItems?.[0]?.item?.id)
   }
-
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offsetY = e.nativeEvent.contentOffset.y
-    const velocityY = e.nativeEvent.velocity?.y
-    const sizeHeight = e.nativeEvent.contentSize.height
-    const isShowSearch =
-      offsetY <= HEIGHT_NAVIGATION_BAR ||
-      offsetY >= sizeHeight - space.height ||
-      (!!velocityY && velocityY < 0) ||
-      !velocityY
+    const currentOffsetY = e.nativeEvent.contentOffset.y
 
-    velocityAnimated.value = velocityY ?? 0
-
-    if (isShowSearch) {
-      velocityAnimated.value = 0
-    } else {
+    if (currentOffsetY > lastOffsetY + SCROLL_THRESHOLD) {
+      // Scroll down
       velocityAnimated.value = 1
+    } else if (currentOffsetY < lastOffsetY) {
+      // Scroll up
+      velocityAnimated.value = 0
     }
+
+    // Update previous scroll position
+    lastOffsetY = currentOffsetY
   }
 
   const handleEndSearch = (keySearch: string) => {
@@ -116,7 +112,7 @@ const Home = () => {
   const renderSeparator = () => <View style={styles.separator} />
 
   return (
-    <SafeView>
+    <SafeView flex={1}>
       <Animated.View style={[styles.containerInput, styleAnimatedNavBar]}>
         <Input
           value={search}
@@ -141,16 +137,18 @@ const Home = () => {
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
           contentContainerStyle={styles.contentList}
-          initialNumToRender={2}
-          maxToRenderPerBatch={2}
-          windowSize={2}
+          initialNumToRender={4}
+          maxToRenderPerBatch={6}
+          windowSize={3}
           onEndReached={handleLoadMore}
           ListFooterComponent={
-            loadingMore ? <ActivityIndicator size="large" /> : null
+            loadingMore ? (
+              <ActivityIndicator size="large" style={styles.loadingMore} />
+            ) : null
           }
         />
       ) : (
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" style={styles.loading} />
       )}
     </SafeView>
   )
