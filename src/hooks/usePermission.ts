@@ -75,7 +75,6 @@ const usePermission = () => {
         const removeLibrary = permissionArr.filter((i) => i !== 'library')
         permissionArr = [...removeLibrary, 'photos', 'media']
       }
-      console.log('permissionArr', permissionArr)
       await checkMultiPermission(permissionArr)
 
       const permission = permissionArr.map((r) => _PERMISSIONS[r][Platform.OS])
@@ -87,7 +86,6 @@ const usePermission = () => {
         : await PermissionsAndroid.requestMultiple(permission)
 
       const resultRequestArr = Object.values(resultRequest)
-      console.log('resultRequestArr', resultRequestArr)
       if (
         resultRequestArr.includes('blocked') ||
         resultRequestArr.includes('denied') ||

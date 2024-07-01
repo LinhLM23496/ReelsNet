@@ -53,6 +53,10 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
 
   useImperativeHandle(ref, () => ({
     getSelected: () => select,
+    updateSelected: (positionImage) =>
+      setSelect((prev) =>
+        isMultiple ? [...prev, positionImage] : [positionImage]
+      ),
     refresh: getUnloadedPictures
   }))
 
