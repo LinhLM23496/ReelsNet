@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Home: undefined
   Settings: undefined
   CreatePost: undefined
+  CreatePostFilter: { media: ImageType[] }
   CreatePostContent: { media: ImageType[] }
   Search: { keySearch: string }
   // Add more screens here

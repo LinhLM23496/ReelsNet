@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
     paddingVertical: space.xs
   },
   title: {
-    marginHorizontal: space.m
+    marginHorizontal: space.m,
+    marginVertical: space.xs
   },
   containerImage: {
     marginVertical: space.s

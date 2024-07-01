@@ -4,6 +4,7 @@ import Settings from 'screens/Settings/Settings'
 import CreatePost from 'screens/CreatePost/CreatePost'
 import Search from 'screens/Search/Search'
 import CreatePostContent from 'screens/CreatePostContent/CreatePostContent'
+import CreatePostFilter from 'screens/CreatePostFilter/CreatePostFilter'
 
 type RouteConfig = {
   [key in keyof RootStackParamList]: {
@@ -29,6 +30,10 @@ const Route: RouteConfig = {
   CreatePost: {
     name: 'CreatePost',
     component: CreatePost
+  },
+  CreatePostFilter: {
+    name: 'CreatePostFilter',
+    component: CreatePostFilter
   },
   CreatePostContent: {
     name: 'CreatePostContent',

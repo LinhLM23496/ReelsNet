@@ -39,4 +39,5 @@ export interface IButtonProps extends TouchableOpacityProps {
    ** 4xl => fontsize is 40
    */
   fontSize?: FontSizeType
+  backgroundColor?: string
 }
