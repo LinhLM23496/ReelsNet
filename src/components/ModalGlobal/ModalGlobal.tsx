@@ -1,10 +1,11 @@
 import React from 'react'
-import { Button, Modal, Row, Text } from 'components'
+import { Button, Icon, Modal, Row, Text } from 'components'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectModal } from 'stores/modal/modal.selectors'
-import { closeModal } from 'stores/modal/modal.reducer'
 import { styles } from './ModalGlobal.styles'
-import { colorRange } from 'themes'
+import { color, colorRange } from 'themes'
+import { Image, View } from 'react-native'
+import { closeModal } from 'stores/modal/modal.action'
 
 const ModalGobal = () => {
   const dispatch = useDispatch()
@@ -14,19 +15,21 @@ const ModalGobal = () => {
     position,
     title,
     subTitle,
+    image,
     content,
     button,
     autoClose,
     onClose
   } = modal ?? {}
+  const borderRadius = image?.border ?? 100
 
   const handleButton = (onPress?: () => void) => {
-    closeModal()
+    dispatch<any>(closeModal())
     onPress?.()
   }
 
   const handleClose = () => {
-    dispatch(closeModal())
+    dispatch<any>(closeModal())
     onClose?.()
   }
 
@@ -48,6 +51,17 @@ const ModalGobal = () => {
           style={styles.title}>
           {title}
         </Text>
+      ) : null}
+      {image ? (
+        <View style={styles.containerImage}>
+          <Image
+            source={{ uri: image.uri }}
+            style={[styles.image, { borderRadius }]}
+          />
+          {image?.isVerify ? (
+            <Icon name="check" color={color.success} style={styles.iconCheck} />
+          ) : null}
+        </View>
       ) : null}
       {subTitle ? (
         <Text size="l" fontWeight="500">

@@ -13,9 +13,12 @@ import { space } from 'themes'
 import { usersAPI } from 'api'
 import { UserData } from 'api/users/types'
 import EmptyView from './components/EmptyView'
+import { useDispatch } from 'react-redux'
+import { closeModal, onModal } from 'stores/modal/modal.action'
 
 const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
   const keySearch = route.params.keySearch
+  const dispatch = useDispatch()
   const [search, setSearch] = useState(keySearch)
   const [data, setData] = useState<UserData[]>([])
   const [loading, setLoading] = useState(false)
@@ -30,6 +33,13 @@ const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
       const res = await usersAPI.searchUsers({ search_query })
       setData(res)
     } catch (error) {
+      dispatch<any>(
+        onModal({
+          display: true,
+          title: 'Error',
+          subTitle: 'An error occurred, please try again later'
+        })
+      )
     } finally {
       setLoading(false)
     }
@@ -46,7 +56,39 @@ const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
   }
 
   const renderItem = ({ item }: { item: UserData }) => {
-    return <UserItem key={item.id} data={item} />
+    const { full_name, profile_pic_url, is_verified } = item
+
+    const handleViewProfile = () => {
+      dispatch<any>(closeModal())
+      console.log('handle View Profile')
+    }
+
+    const handleFollow = () => {
+      dispatch<any>(closeModal())
+      console.log('handle Follow')
+    }
+
+    const handleUser = () => {
+      dispatch<any>(
+        onModal({
+          display: true,
+          title: 'Information',
+          image: { uri: profile_pic_url, isVerify: is_verified },
+          subTitle: full_name,
+          button: [
+            {
+              title: 'View profile',
+              onPress: handleViewProfile
+            },
+            {
+              title: 'Follow',
+              onPress: handleFollow
+            }
+          ]
+        })
+      )
+    }
+    return <UserItem key={item.id} data={item} onPress={handleUser} />
   }
 
   const renderSeparator = () => {

@@ -5,13 +5,14 @@ const initialState: ModalProps = {
   display: false,
   autoClose: false,
   button: [],
+  image: undefined,
   content: '',
   title: '',
   subTitle: '',
   onClose: () => {}
 }
 
-export const maodalSlice = createSlice({
+export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
@@ -30,6 +31,4 @@ export const maodalSlice = createSlice({
   }
 })
 
-export const { setModal, closeModal } = maodalSlice.actions
-
-export default maodalSlice.reducer
+export default modalSlice.reducer
