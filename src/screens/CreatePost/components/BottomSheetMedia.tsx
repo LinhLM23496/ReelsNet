@@ -16,6 +16,8 @@ import { styles } from './BottomSheetMedia.styles'
 import { BSMediaRef, Props } from './BottomSheetMedia.types'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+const LIMIT = 10
+
 const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
   const { bottom } = useSafeAreaInsets()
   const paddingBottom = bottom + space.m
@@ -61,7 +63,8 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
     const currentActive = currentSelect?.uri === uri
     const opacity = currentActive ? 0.5 : 1
     const disabled = isMultiple
-      ? select.length < 2 && currentActive
+      ? (select.length < 2 && currentActive) ||
+        (select.length >= LIMIT && !active)
       : currentActive
 
     const handleSelect = () => {

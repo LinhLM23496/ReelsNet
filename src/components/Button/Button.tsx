@@ -25,6 +25,7 @@ function Button(props: IButtonProps) {
     isFullWidth,
     fontSize: _fontSize,
     colorText: _colorText,
+    backgroundColor: _backgroundColor,
     ...rest
   } = props
 
@@ -43,7 +44,9 @@ function Button(props: IButtonProps) {
     ? color.white
     : color.primary
 
-  const backgroundColor = isGhost
+  const backgroundColor = _backgroundColor
+    ? _backgroundColor
+    : isGhost
     ? color.transparent
     : !isFilled
     ? color.white
@@ -51,7 +54,9 @@ function Button(props: IButtonProps) {
     ? color.gray
     : color.primary
 
-  const borderColor = isGhost
+  const borderColor = _backgroundColor
+    ? _backgroundColor
+    : isGhost
     ? color.transparent
     : disabled
     ? color.gray

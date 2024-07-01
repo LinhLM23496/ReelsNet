@@ -44,7 +44,7 @@ const ModalGobal = () => {
       autoClose={autoClose}>
       {title ? (
         <Text
-          size="xl"
+          size="l"
           numberOfLines={1}
           adjustsFontSizeToFit
           fontWeight="bold"
@@ -64,7 +64,7 @@ const ModalGobal = () => {
         </View>
       ) : null}
       {subTitle ? (
-        <Text size="l" fontWeight="500">
+        <Text size="m" textAlign="center">
           {subTitle}
         </Text>
       ) : null}
@@ -76,6 +76,7 @@ const ModalGobal = () => {
           style={styles.buttonContainer}>
           {button?.map((item, index: number) => (
             <Button
+              {...item}
               key={index}
               title={item.title}
               onPress={() => handleButton(item?.onPress)}

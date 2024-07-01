@@ -29,6 +29,7 @@ const MainNavigation = () => {
             <Screen {...Route.CreatePost} />
           </Group>
           <Screen {...Route.CreatePostContent} />
+          <Screen {...Route.CreatePostFilter} />
         </Navigator>
       </NavigationContainer>
     </Suspense>

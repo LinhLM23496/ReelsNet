@@ -10,8 +10,11 @@ import { NavigationService, Route } from 'navigation'
 import CameraView from './components/CameraView'
 import { CameraRef } from './components/CameraView.types'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
+import { useDispatch } from 'react-redux'
+import { onModal } from 'stores/modal/modal.action'
 
 const CreatePost = () => {
+  const dispatch = useDispatch()
   const { requestMultiPermission } = usePermission()
   const mediaRef = useRef<BSMediaRef>(null)
   const cameraRef = useRef<CameraRef>(null)
@@ -28,7 +31,7 @@ const CreatePost = () => {
   const handleContinue = () => {
     const selected = mediaRef.current?.getSelected()
     if (!selected || !selected?.length) return
-    NavigationService.push(Route.CreatePostContent, { media: selected })
+    NavigationService.push(Route.CreatePostFilter, { media: selected })
   }
 
   const onTakeCamera = async (photo: ImageType) => {
@@ -41,11 +44,39 @@ const CreatePost = () => {
     })
   }
 
+  const onConfirm = () => {
+    NavigationService.goBack()
+  }
+
+  const handleBack = () => {
+    dispatch<any>(
+      onModal({
+        display: true,
+        title: 'Discard creating post?',
+        subTitle: "If you discard, your new post won't be created.",
+        button: [
+          {
+            title: 'Discard',
+            variant: 'ghost',
+            colorText: color.danger,
+            onPress: onConfirm
+          },
+          {
+            title: 'Keep editing',
+            borderRadius: 's',
+            onPress: () => {}
+          }
+        ]
+      })
+    )
+  }
+
   return (
     <View style={styles.container}>
       <NavigationBar
         title={'Create Post'}
         iconLeft="close"
+        onBackPress={handleBack}
         ElementRight={
           <TouchableOpacity
             activeOpacity={0.8}
