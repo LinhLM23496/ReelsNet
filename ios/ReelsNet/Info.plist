@@ -32,6 +32,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>ReelsNet app requires camera access to take photo</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>App ReelsNet MicroPhone access to record audio</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>ReelsNet uses your Photo Library to create your post or reels</string>
 	<key>NSPhotoLibraryUsageDescription</key>
