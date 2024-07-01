@@ -5,13 +5,13 @@ import { NavigationService, Route, ScreenProps } from 'navigation'
 import { HEIGHT_NAVIGATION_BAR, color } from 'themes'
 import { ImageType } from 'hooks/useGallery'
 import { useDispatch } from 'react-redux'
-import { onModal } from 'stores/modal/modal.action'
 import ImageItem from './components/ImageItem'
 import { DATA_FILTER, snapToInterval } from './contants'
 import ListFilter from './components/ListFilter'
 import { FilterType } from './CreatePostFilter.types'
 import { styles } from './CreatePostFilter.styles'
 import { ImageItemRef } from './components/ImageItem.types'
+import { onModal } from 'stores/modal'
 
 const DEFAULT_FILTER = DATA_FILTER[0]
 

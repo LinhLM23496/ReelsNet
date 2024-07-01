@@ -6,7 +6,7 @@ import rootReducer from './rootReducer'
 const persistConfig = {
   key: 'root',
   storage: reduxStorage,
-  blacklist: ['modal']
+  blacklist: ['modal', 'posts']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

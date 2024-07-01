@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, SafeView, Text } from 'components'
 import { useDispatch } from 'react-redux'
-import { onModal } from 'stores/modal/modal.action'
+import { onModal } from 'stores/modal'
 
 const Settings = () => {
   const dispatch = useDispatch()

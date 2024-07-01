@@ -6,7 +6,7 @@ import {
   NativeSyntheticEvent,
   View
 } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import PostItem from './components/PostItem'
 import { Input, SafeView } from 'components'
 import Animated, {
@@ -19,24 +19,23 @@ import Animated, {
 import { styles } from './Home.styles'
 import { NavigationService, Route } from 'navigation'
 import { PostData } from 'api/posts/types'
-import { postsAPI } from 'api'
 import { useFocusEffect } from '@react-navigation/native'
+import { getRandomPosts, refreshRandomPosts, selectPosts } from 'stores/posts'
+import { useDispatch, useSelector } from 'react-redux'
+import { onModal } from 'stores/modal'
 
 const SCROLL_THRESHOLD = 20
 const Home = () => {
+  const dispatch = useDispatch()
+  const { posts } = useSelector(selectPosts)
+  const flatlistRef = useRef<FlatList>(null)
   const [viewableItems, setViewableItems] = useState('')
   const [search, setSearch] = useState('')
   const velocityAnimated = useSharedValue(0)
-  const [data, setData] = useState<PostData[]>([])
   const [loading, setLoading] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
-  const [paging, setPaging] = useState<string | null>()
   let lastOffsetY = 0
-
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   useFocusEffect(
     useCallback(() => {
@@ -44,25 +43,6 @@ const Home = () => {
       return () => setIsFocus(false)
     }, [])
   )
-
-  const fetchData = async (page?: string) => {
-    if (loading || loadingMore) return
-    try {
-      page ? setLoadingMore(true) : setLoading(true)
-      const response = await postsAPI.getPosts({
-        username_or_id_or_url: 'mrbeast',
-        pagination_token: page
-      })
-      setData((prev) =>
-        page ? [...prev, ...response.data.items] : response.data.items
-      )
-      setPaging(response.pagination_token)
-    } catch (error) {
-      console.error('error', error)
-    } finally {
-      page ? setLoadingMore(false) : setLoading(false)
-    }
-  }
 
   const styleAnimatedNavBar = useAnimatedStyle(() => {
     const translateY = interpolate(velocityAnimated.value, [0, 1], [0, -110], {
@@ -97,9 +77,56 @@ const Home = () => {
     NavigationService.push(Route.Search, { keySearch })
   }
 
-  const handleLoadMore = () => {
-    if (!paging || loading || loadingMore) return
-    fetchData(paging)
+  const handleLoadMore = async () => {
+    if (loadingMore) return
+    try {
+      setLoadingMore(true)
+      await dispatch<any>(getRandomPosts())
+    } catch (error) {
+      dispatch<any>(
+        onModal({
+          display: true,
+          title: 'Error',
+          subTitle: 'An error occurred, please try again.',
+          onClose: handleRefresh,
+          button: [
+            {
+              title: 'Retry',
+              onPress: handleRefresh
+            }
+          ]
+        })
+      )
+    } finally {
+      setLoadingMore(false)
+    }
+  }
+
+  const handleRefresh = async () => {
+    if (loading || loadingMore) return
+
+    try {
+      flatlistRef.current?.scrollToOffset({ animated: true, offset: 0 })
+      setLoading(true)
+      await dispatch<any>(refreshRandomPosts())
+    } catch (error) {
+      dispatch<any>(
+        onModal({
+          display: true,
+          title: 'Error',
+          subTitle: 'An error occurred, please try again.',
+          onClose: handleRefresh,
+          button: [
+            {
+              title: 'Retry',
+              onPress: handleRefresh
+            }
+          ]
+        })
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   const renderItem = ({ item }: { item: PostData }) => {
@@ -128,7 +155,8 @@ const Home = () => {
       </Animated.View>
       {!loading ? (
         <FlatList
-          data={data}
+          ref={flatlistRef}
+          data={posts}
           renderItem={renderItem}
           onScroll={onScroll}
           keyboardDismissMode="on-drag"
@@ -141,6 +169,7 @@ const Home = () => {
           maxToRenderPerBatch={6}
           windowSize={3}
           onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.2}
           ListFooterComponent={
             loadingMore ? (
               <ActivityIndicator size="large" style={styles.loadingMore} />

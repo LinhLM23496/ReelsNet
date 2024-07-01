@@ -9,7 +9,7 @@ const { Navigator, Screen, Group } =
   createNativeStackNavigator<RootStackParamList>()
 
 const MainNavigation = () => {
-  const initialRouteName = 'Main'
+  const initialRouteName = 'Splash'
 
   return (
     <Suspense fallback={null}>
@@ -20,6 +20,7 @@ const MainNavigation = () => {
             headerShown: false,
             animation: 'slide_from_right'
           }}>
+          <Screen {...Route.Splash} />
           <Screen name={Route.Main.name} component={BottomTabNavigator} />
           <Screen {...Route.Search} />
           <Group

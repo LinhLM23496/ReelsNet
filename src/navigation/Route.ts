@@ -5,6 +5,7 @@ import CreatePost from 'screens/CreatePost/CreatePost'
 import Search from 'screens/Search/Search'
 import CreatePostContent from 'screens/CreatePostContent/CreatePostContent'
 import CreatePostFilter from 'screens/CreatePostFilter/CreatePostFilter'
+import Splash from 'screens/Splash/Splash'
 
 type RouteConfig = {
   [key in keyof RootStackParamList]: {
@@ -14,6 +15,10 @@ type RouteConfig = {
 }
 
 const Route: RouteConfig = {
+  Splash: {
+    name: 'Splash',
+    component: Splash
+  },
   Main: {
     name: 'Main',
     //@ts-ignore
