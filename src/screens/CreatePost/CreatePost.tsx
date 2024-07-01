@@ -1,4 +1,10 @@
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Button, NavigationBar, Row, Text } from 'components'
 import { color, space } from 'themes'
@@ -21,9 +27,31 @@ const CreatePost = () => {
   const [isMultiple, setIsMultiple] = useToggle(false)
   const [currentSelect, setCurrentSelect] = useState<ImageType>()
   const handleCamera = () => {
-    requestMultiPermission(['camera']).then((value) => {
-      value && cameraRef.current?.present()
-    })
+    requestMultiPermission(['camera'])
+      .then((value) => {
+        value && cameraRef.current?.present()
+      })
+      .catch(() => {
+        dispatch<any>(
+          onModal({
+            display: true,
+            title: 'Allow ReelsNet to access your camera?',
+            content:
+              'Turn on Photos service to allow ReelsNet to access your camera.',
+            button: [
+              {
+                variant: 'ghost',
+                title: 'Discard',
+                onPress: () => {}
+              },
+              {
+                title: 'Settings',
+                onPress: () => Linking.openSettings()
+              }
+            ]
+          })
+        )
+      })
 
     // TODO: record video
   }
@@ -41,6 +69,7 @@ const CreatePost = () => {
       mediaRef.current?.refresh()
       const image = photoSave.node.image as unknown as ImageType
       setCurrentSelect(image)
+      mediaRef.current?.updateSelected(image)
     })
   }
 

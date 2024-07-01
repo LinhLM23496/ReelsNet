@@ -1,5 +1,5 @@
 import React from 'react'
-import { Path, Svg } from 'react-native-svg'
+import { ClipPath, Defs, G, Path, Rect, Svg } from 'react-native-svg'
 import { IconSizeType, color as _color, iconSize } from 'themes'
 
 type Props = {
@@ -11,13 +11,14 @@ const IconFlash = ({ size = 'm', color = _color.black }: Props) => {
   const newSize = iconSize[size]
   return (
     <Svg height={newSize} width={newSize} viewBox="0 0 24 24" fill="none">
-      <Path
-        d="M19.704 2.063L6 19h8l-1.97 10.827a.148.148 0 00.084.16.147.147 0 00.18-.046L26 13h-8l1.979-10.828a.153.153 0 00-.221-.155.151.151 0 00-.054.046z"
-        stroke={color}
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <G clip-path="url(#clip0_18_16573)">
+        <Path d="M7 2V13H10V22L17 10H13L17 2H7Z" fill={color} />
+      </G>
+      <Defs>
+        <ClipPath id="clip0_18_16573">
+          <Rect width="24" height="24" fill="white" />
+        </ClipPath>
+      </Defs>
     </Svg>
   )
 }

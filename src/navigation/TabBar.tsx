@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Keyboard, View, TouchableOpacity, StyleSheet } from 'react-native'
+import {
+  Keyboard,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Linking
+} from 'react-native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { HEIGHT_BOTTOM_BAR, color, space } from 'themes'
 import { Icon } from 'components'
@@ -8,6 +14,8 @@ import NavigationService from './NavigationService'
 import Route from './Route'
 import { usePermission } from 'hooks'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
+import { onModal } from 'stores/modal'
 
 interface DetailTabProps {
   icon: keyof typeof IconComponent
@@ -31,6 +39,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation
 }) => {
+  const dispatch = useDispatch()
   const { bottom } = useSafeAreaInsets()
   const { requestMultiPermission } = usePermission()
   const [visit, setVisit] = useState(true)
@@ -48,6 +57,33 @@ const TabBar: React.FC<BottomTabBarProps> = ({
       hideSubscription.remove()
     }
   }, [])
+
+  const handleCreatePost = async () => {
+    try {
+      await requestMultiPermission(['library'])
+      NavigationService.push(Route.CreatePost)
+    } catch (error) {
+      dispatch<any>(
+        onModal({
+          display: true,
+          title: 'Allow ReelsNet to access your photos?',
+          content:
+            'Turn on Photos service to allow ReelsNet to access your photos.',
+          button: [
+            {
+              variant: 'ghost',
+              title: 'Discard',
+              onPress: () => {}
+            },
+            {
+              title: 'Settings',
+              onPress: () => Linking.openSettings()
+            }
+          ]
+        })
+      )
+    }
+  }
 
   return visit ? (
     <View style={[styles.container, { paddingBottom: bottom }]}>
@@ -75,12 +111,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({
           if (disabled) return
 
           if (label === 'CreatePost') {
-            try {
-              await requestMultiPermission(['library'])
-              NavigationService.push(Route.CreatePost)
-            } catch (error) {
-              console.log('error', error)
-            }
+            handleCreatePost()
           } else {
             navigation.navigate({
               name: route.name,

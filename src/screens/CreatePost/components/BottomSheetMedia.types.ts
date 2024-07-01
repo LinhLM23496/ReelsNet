@@ -8,5 +8,6 @@ export type Props = {
 
 export type BSMediaRef = {
   getSelected: () => ImageType[]
+  updateSelected: (position: ImageType) => void
   refresh: () => void
 }
