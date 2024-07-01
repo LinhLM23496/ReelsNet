@@ -12,7 +12,9 @@ const CreatePost = () => {
   const mediaRef = useRef<BSMediaRef>(null)
   const [isMultiple, setIsMultiple] = useToggle(false)
   const [currentSelect, setCurrentSelect] = useState<ImageType>()
-  const handle = () => {}
+  const handleCamera = () => {
+    // TODO: camera
+  }
 
   const handleContinue = () => {
     const selected = mediaRef.current?.getSelected()
@@ -51,10 +53,12 @@ const CreatePost = () => {
           style={{ borderColor: color.transparent }}
         />
         <Button
-          iconName="plus"
-          iconColor={color.white}
+          variant="outline"
+          iconName="camera"
+          iconColor={color.black}
           spacing="xxs"
-          onPress={handle}
+          onPress={handleCamera}
+          style={{ borderColor: color.transparent }}
         />
       </Row>
       <View style={styles.empty} />

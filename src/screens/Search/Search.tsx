@@ -12,6 +12,7 @@ import UserItem from './components/UserItem'
 import { space } from 'themes'
 import { usersAPI } from 'api'
 import { UserData } from 'api/users/types'
+import EmptyView from './components/EmptyView'
 
 const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
   const keySearch = route.params.keySearch
@@ -76,6 +77,7 @@ const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
           data={data}
           renderItem={renderItem}
           ItemSeparatorComponent={renderSeparator}
+          ListEmptyComponent={<EmptyView />}
           contentContainerStyle={styles.contentList}
         />
       ) : (
