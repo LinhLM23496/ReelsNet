@@ -1,13 +1,7 @@
-import {
-  Image,
-  Linking,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { Image, Linking, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Button, NavigationBar, Row, Text } from 'components'
-import { color, space } from 'themes'
+import { color } from 'themes'
 import BottomSheetMedia from './components/BottomSheetMedia'
 import { usePermission, useToggle } from 'hooks'
 import { ImageType } from 'hooks/useGallery'
@@ -18,7 +12,10 @@ import { CameraRef } from './components/CameraView.types'
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import { useDispatch } from 'react-redux'
 import { onModal } from 'stores/modal'
+import { styles } from './CreatePost.styles'
 
+// TODO: current media is photos beacause I haven't handled the video case yet.
+// TODO: hanlde video
 const CreatePost = () => {
   const dispatch = useDispatch()
   const { requestMultiPermission } = usePermission()
@@ -153,30 +150,3 @@ const CreatePost = () => {
 }
 
 export default CreatePost
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  buttonContinue: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: space.m
-  },
-  body: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  item: {
-    flex: 1,
-    width: '80%',
-    height: 'auto'
-  },
-  footer: {
-    paddingHorizontal: space.m,
-    marginTop: space.s
-  },
-  empty: {
-    flex: 1
-  }
-})

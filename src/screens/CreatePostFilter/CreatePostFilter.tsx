@@ -37,7 +37,7 @@ const CreatePostFilter: FC<ScreenProps<'CreatePostFilter'>> = ({ route }) => {
       }
     }
 
-    NavigationService.push(Route.CreatePostContent, { media: listImage })
+    NavigationService.replace(Route.CreatePostContent, { media: listImage })
   }
 
   const renderMedia = ({ item, index }: { item: ImageType; index: number }) => {

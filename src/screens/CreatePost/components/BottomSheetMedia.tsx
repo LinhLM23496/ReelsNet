@@ -32,7 +32,8 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
     hasNextPage,
     loadNextPagePictures,
     getUnloadedPictures
-  } = useGallery({ assetType: 'All' })
+  } = useGallery({ assetType: 'Photos' })
+  // TODO: get All: video + image
 
   useEffect(() => {
     loadNextPagePictures().then((listPhoto) => {
