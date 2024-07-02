@@ -26,11 +26,15 @@ const CreatePostFilter: FC<ScreenProps<'CreatePostFilter'>> = ({ route }) => {
   const handleContinue = async () => {
     let listImage: ImageType[] = images
     if (selected.id !== DEFAULT_FILTER.id) {
-      listImage = await Promise.all(
-        viewShotRefs.current.map((ref) =>
-          ref.current ? ref.current.capture() : Promise.reject('Ref is null')
+      try {
+        listImage = await Promise.all(
+          viewShotRefs.current.map((ref) =>
+            ref.current ? ref.current.capture() : Promise.reject('Ref is null')
+          )
         )
-      )
+      } catch (error) {
+        console.log('error', error)
+      }
     }
 
     NavigationService.push(Route.CreatePostContent, { media: listImage })

@@ -165,11 +165,11 @@ const Home = () => {
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
           contentContainerStyle={styles.contentList}
-          initialNumToRender={4}
-          maxToRenderPerBatch={6}
-          windowSize={3}
+          initialNumToRender={6}
+          maxToRenderPerBatch={10}
+          windowSize={5}
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0.5}
           ListFooterComponent={
             loadingMore ? (
               <ActivityIndicator size="large" style={styles.loadingMore} />

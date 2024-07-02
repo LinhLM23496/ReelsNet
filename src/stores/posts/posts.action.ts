@@ -6,11 +6,9 @@ import { getRandomUsers, resetUsers } from 'stores/global'
 const { setPosts, setCurrentIndex, resetPosts } = postsSlice.actions
 
 export const getRandomPosts = () => async (dispatch: any) => {
-  const {
-    posts,
-    currentIndex: _currentIndex,
-    users: _users
-  } = store.getState().posts
+  const { posts, currentIndex: _currentIndex } = store.getState().posts
+
+  const { users: _users } = store.getState().global
   let users = _users
   let currentIndex = _currentIndex
   if (_currentIndex >= users.length || users.length === 0) {
