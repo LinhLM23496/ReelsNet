@@ -18,12 +18,13 @@ const Splash = () => {
         }
         await dispatch<any>(getRandomPosts())
         NavigationService.replace(Route.Main)
-      } catch (error) {
+      } catch (error: any) {
         dispatch<any>(
           onModal({
             display: true,
             title: 'Error',
             subTitle: 'An error occurred, please try again.',
+            content: error.message,
             onClose: fetchData,
             button: [
               {
