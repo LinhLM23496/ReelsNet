@@ -2,15 +2,18 @@ import { createSlice } from '@reduxjs/toolkit'
 import { GlobalProps } from './global.types'
 
 const initialState: GlobalProps = {
-  loading: false
+  users: []
 }
 
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setLoading: (state, action) => {
-      state.loading = action.payload
+    setUsers: (state, action) => {
+      state.users = action.payload
+    },
+    resetUsers: (state) => {
+      state.users = []
     }
   }
 })

@@ -1,16 +1,12 @@
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { avatarSize, color, space } from 'themes'
-import { Text } from 'components'
-import { UserData } from 'api/users/types'
-
-type Props = {
-  data: UserData
-  onPress: () => void
-}
+import { color } from 'themes'
+import { Icon, Text } from 'components'
+import { styles } from './UserItem.styles'
+import { Props } from './UserItem.types'
 
 const UserItem = ({ data, onPress }: Props) => {
-  const { profile_pic_url, username } = data
+  const { profile_pic_url, username, is_verified } = data
 
   return (
     <TouchableOpacity
@@ -18,7 +14,17 @@ const UserItem = ({ data, onPress }: Props) => {
       onPress={onPress}
       style={styles.container}>
       {profile_pic_url ? (
-        <Image source={{ uri: profile_pic_url }} style={styles.avatar} />
+        <View>
+          <Image source={{ uri: profile_pic_url }} style={styles.avatar} />
+          {is_verified ? (
+            <Icon
+              size="xs"
+              name="check"
+              color={color.success}
+              style={styles.iconCheck}
+            />
+          ) : null}
+        </View>
       ) : null}
       <Text>{username}</Text>
     </TouchableOpacity>
@@ -26,20 +32,3 @@ const UserItem = ({ data, onPress }: Props) => {
 }
 
 export default React.memo(UserItem)
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: space.s,
-    backgroundColor: color.white,
-    borderRadius: space.xxs,
-    gap: space.s
-  },
-  avatar: {
-    width: avatarSize.xs,
-    height: 'auto',
-    aspectRatio: 1,
-    borderRadius: avatarSize.xs
-  }
-})

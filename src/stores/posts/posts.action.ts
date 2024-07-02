@@ -1,18 +1,9 @@
-import { postsAPI, usersAPI } from 'api'
-import { generateRandomString } from 'lib'
+import { postsAPI } from 'api'
 import { postsSlice } from './posts.reducer'
 import { store } from 'stores/store'
+import { getRandomUsers, resetUsers } from 'stores/global'
 
-const { setUsers, setPosts, setCurrentIndex, resetPosts } = postsSlice.actions
-
-export const getRandomUsers = () => async (dispatch: any) => {
-  const search_query = generateRandomString()
-  const response = await usersAPI.searchUsers({ search_query })
-  const listUsername = response.map((user: any) => user.username)
-  dispatch(setUsers(listUsername))
-
-  return listUsername
-}
+const { setPosts, setCurrentIndex, resetPosts } = postsSlice.actions
 
 export const getRandomPosts = () => async (dispatch: any) => {
   const {
@@ -52,5 +43,6 @@ export const getRandomPosts = () => async (dispatch: any) => {
 
 export const refreshRandomPosts = () => async (dispatch: any) => {
   dispatch(resetPosts())
+  dispatch(resetUsers())
   await dispatch(getRandomPosts())
 }
