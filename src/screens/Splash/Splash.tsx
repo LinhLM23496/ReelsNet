@@ -1,17 +1,21 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { getRandomPosts, getRandomUsers } from 'stores/posts'
+import { useDispatch, useSelector } from 'react-redux'
+import { getRandomPosts } from 'stores/posts'
 import { NavigationService, Route } from 'navigation'
 import { onModal } from 'stores/modal'
+import { getRandomUsers, selectGlobal } from 'stores/global'
 
 const Splash = () => {
   const dispatch = useDispatch()
+  const { users } = useSelector(selectGlobal)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch<any>(getRandomUsers())
+        if (!users?.length) {
+          await dispatch<any>(getRandomUsers())
+        }
         await dispatch<any>(getRandomPosts())
         NavigationService.replace(Route.Main)
       } catch (error) {

@@ -14,9 +14,6 @@ export const postsSlice = createSlice({
     setPosts: (state, action) => {
       state.posts = action.payload
     },
-    setUsers: (state, action) => {
-      state.users = action.payload
-    },
     setCurrentIndex: (state, action) => {
       state.currentIndex = action.payload
     },

@@ -15,6 +15,7 @@ import { UserData } from 'api/users/types'
 import EmptyView from './components/EmptyView'
 import { useDispatch } from 'react-redux'
 import { closeModal, onModal } from 'stores/modal'
+import { updateUsers } from 'stores/global'
 
 const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
   const keySearch = route.params.keySearch
@@ -31,6 +32,7 @@ const Search: FC<ScreenProps<'Search'>> = ({ route }) => {
     try {
       setLoading(true)
       const res = await usersAPI.searchUsers({ search_query })
+      dispatch<any>(updateUsers(res))
       setData(res)
     } catch (error) {
       dispatch<any>(
