@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native start",
+    "start": "NODE_ENV=development npx react-native start",
+    "start:development": "NODE_ENV=development npx react-native start",
+    "start:production": "NODE_ENV=production npx react-native start",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
     "apk": "cd android && ./gradlew assembleRelease",
@@ -61,6 +63,7 @@
     "jest": "^29.7.0",
     "prettier": "2.8.8",
     "react-dom": "^18.3.1",
+    "react-native-dotenv": "^3.4.11",
     "react-test-renderer": "18.2.0",
     "ts-jest": "^29.1.5",
     "typescript": "^5.5.2"

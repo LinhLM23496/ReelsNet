@@ -30,11 +30,13 @@ Project Structure Explanation
 
 🥈 Run the project in development environment:
 
-👉 `yarn start`
+👉 `yarn start:development`
 
-👉 `yarn android`
+---
 
-👉 `yarn ios`
+🥈 Run the project in development environment:
+
+👉 `yarn start:production`
 
 ---
 

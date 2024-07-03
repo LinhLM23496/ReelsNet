@@ -23,6 +23,14 @@ module.exports = {
           stores: './src/stores'
         }
       }
+    ],
+    [
+      'module:react-native-dotenv',
+      {
+        envName: 'APP_ENV',
+        moduleName: '@env',
+        path: '.env'
+      }
     ]
   ]
 }

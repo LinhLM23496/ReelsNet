@@ -1,12 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
 
-const baseURL = 'https://instagram-scraper-api2.p.rapidapi.com'
+const BASE_URL = process.env.BASE_URL
+const KEY = process.env.KEY
+const HOST = process.env.HOST
+
 const apiRequest = axios.create({
-  baseURL,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    'x-rapidapi-key': '1be8ed855bmsh9c2c0a4a4e17c33p17817cjsn62d96bf544d6',
-    'x-rapidapi-host': 'instagram-scraper-api2.p.rapidapi.com'
+    'x-rapidapi-key': KEY,
+    'x-rapidapi-host': HOST
   }
 })
 
