@@ -151,10 +151,7 @@ const CreatePost = () => {
                 <TouchableNativeFeedback
                   disabled={!isVideo}
                   style={{}}
-                  onPress={() => {
-                    console.log('TouchableNativeFeedback')
-                    setIsShowController()
-                  }}>
+                  onPress={setIsShowController}>
                   <View>
                     <Video
                       ref={videoRef}

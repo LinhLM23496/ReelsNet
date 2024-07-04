@@ -3,13 +3,14 @@ import { space, color, avatarSize } from 'themes'
 
 export const styles = StyleSheet.create({
   modalOverlay: {
-    ...StyleSheet.absoluteFillObject
+    flex: 1,
+    backgroundColor: 'blue'
   },
   container: {
-    flex: 1,
+    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: space.xl
+    marginHorizontal: space.xl
   },
   centeredView: {
     justifyContent: 'center',
@@ -44,5 +45,8 @@ export const styles = StyleSheet.create({
     bottom: -avatarSize.l / 2.5,
     width: avatarSize.l,
     height: avatarSize.l
+  },
+  flex1: {
+    flex: 1
   }
 })

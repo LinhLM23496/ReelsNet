@@ -14,6 +14,7 @@ import { PositionType, Props } from './Modal.types'
 import ProgressBar from './components/ProgressBar'
 import Button from 'components/Button/Button'
 import { styles } from './Modal.styles'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Modal = (props: Props) => {
   const {
@@ -25,31 +26,37 @@ const Modal = (props: Props) => {
     duration = 750,
     autoClose = false
   } = props
-  const overlayValue = useSharedValue(color.white)
+  const overlayValue = useSharedValue(color.transparent)
+  const { bottom, top } = useSafeAreaInsets()
 
-  const positionValue: PositionType = useMemo(() => {
-    switch (position) {
-      case 'top':
-        return { justifyContent: 'flex-start', value: -400 }
-      case 'bottom':
-        return { justifyContent: 'flex-end', value: 400 }
-      default:
-        return { justifyContent: 'center', value: 0 }
-    }
-  }, [position])
+  const { justifyContent, marginTop, marginBottom, value }: PositionType =
+    useMemo(() => {
+      switch (position) {
+        case 'top':
+          return { justifyContent: 'flex-start', value: -400, marginTop: top }
+        case 'bottom':
+          return {
+            justifyContent: 'flex-end',
+            value: 400,
+            marginBottom: bottom
+          }
+        default:
+          return { justifyContent: 'center', value: 0 }
+      }
+    }, [position])
 
-  const visibleValue = useSharedValue(positionValue.value)
+  const visibleValue = useSharedValue(value)
 
   useEffect(() => {
     visibleValue.value = interpolate(
       visible ? 1 : 0,
       [0, 1],
-      [positionValue.value, positionValue.value === 0 ? 1 : 0]
+      [value, value === 0 ? 1 : 0]
     )
     overlayValue.value = interpolateColor(
       visible ? 1 : 0,
       [0, 1],
-      [color.white, 'rgba(0,0,0,0.1)']
+      [color.transparent, 'rgba(0,0,0,0.1)']
     )
   }, [visible])
 
@@ -80,27 +87,26 @@ const Modal = (props: Props) => {
       visible={visible}
       onRequestClose={handleClose}>
       <TouchableWithoutFeedback onPress={handleClose}>
-        <Animated.View style={[styles.modalOverlay, overlayStyle]} />
+        <View
+          style={[styles.flex1, { marginTop, marginBottom, justifyContent }]}>
+          <Animated.View style={[styles.modalOverlay, overlayStyle]} />
+          <View style={[styles.container]}>
+            <Animated.View style={[styles.modalView, modalStyle]}>
+              <Button
+                variant="ghost"
+                spacing="xxs"
+                onPress={handleClose}
+                style={styles.buttonClose}
+                iconName="close"
+              />
+              {children}
+              {autoClose ? (
+                <ProgressBar onDone={handleClose} style={styles.progressBar} />
+              ) : null}
+            </Animated.View>
+          </View>
+        </View>
       </TouchableWithoutFeedback>
-      <View
-        style={[
-          styles.container,
-          { justifyContent: positionValue.justifyContent }
-        ]}>
-        <Animated.View style={[styles.modalView, modalStyle]}>
-          <Button
-            variant="ghost"
-            spacing="xxs"
-            onPress={handleClose}
-            style={styles.buttonClose}
-            iconName="close"
-          />
-          {children}
-          {autoClose ? (
-            <ProgressBar onDone={handleClose} style={styles.progressBar} />
-          ) : null}
-        </Animated.View>
-      </View>
     </ModalRN>
   )
 }
