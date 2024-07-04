@@ -9,7 +9,7 @@ import React, { useRef, useState } from 'react'
 import { Icon, Row, Text } from 'components'
 import { avatarSize, color, space } from 'themes'
 import Video, { VideoRef } from 'react-native-video'
-import { ImageType, PostData } from 'api/posts/types'
+import { MediaType, PostData } from 'api/posts/types'
 import ContentItem from './ContentItem'
 
 type Props = {
@@ -29,7 +29,7 @@ const PostItem = ({ data, active, isVideo }: Props) => {
     videoRef.current?.seek(0)
   }
 
-  const renderImage = ({ item }: { item: ImageType }) => {
+  const renderImage = ({ item }: { item: MediaType }) => {
     const { url, width, height } = item
     return (
       <Image

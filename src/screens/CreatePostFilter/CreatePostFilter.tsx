@@ -3,7 +3,7 @@ import React, { FC, useRef, useState } from 'react'
 import { NavigationBar, SafeView, Text } from 'components'
 import { NavigationService, Route, ScreenProps } from 'navigation'
 import { HEIGHT_NAVIGATION_BAR, color } from 'themes'
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 import { useDispatch } from 'react-redux'
 import ImageItem from './components/ImageItem'
 import { DATA_FILTER, snapToInterval } from './contants'
@@ -17,14 +17,14 @@ const DEFAULT_FILTER = DATA_FILTER[0]
 
 const CreatePostFilter: FC<ScreenProps<'CreatePostFilter'>> = ({ route }) => {
   const { media } = route.params
-  const [images, setImages] = useState<ImageType[]>(media)
+  const [images, setImages] = useState<MediaType[]>(media)
   const isMultiple = images.length > 1
   const dispatch = useDispatch()
   const [selected, setSelected] = useState<FilterType>(DEFAULT_FILTER)
   const viewShotRefs = useRef(images.map(() => React.createRef<ImageItemRef>()))
 
   const handleContinue = async () => {
-    let listImage: ImageType[] = images
+    let listImage: MediaType[] = images
     if (selected.id !== DEFAULT_FILTER.id) {
       try {
         listImage = await Promise.all(
@@ -37,14 +37,15 @@ const CreatePostFilter: FC<ScreenProps<'CreatePostFilter'>> = ({ route }) => {
       }
     }
 
-    NavigationService.replace(Route.CreatePostContent, { media: listImage })
+    NavigationService.push(Route.CreatePostContent, { media: listImage })
   }
 
-  const renderMedia = ({ item, index }: { item: ImageType; index: number }) => {
+  const renderMedia = ({ item, index }: { item: MediaType; index: number }) => {
     const { uri } = item
 
     const onDelete = () => {
       const newImages = images.filter((i) => i.uri !== uri)
+      viewShotRefs.current = viewShotRefs.current.filter((_, i) => i !== index)
       setImages(newImages)
     }
 

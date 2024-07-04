@@ -20,5 +20,10 @@ export const styles = StyleSheet.create({
   },
   loading: {
     marginTop: space.xxl
+  },
+  playableDuration: {
+    position: 'absolute',
+    right: space.xxs,
+    bottom: space.xxs
   }
 })

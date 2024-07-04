@@ -1,4 +1,4 @@
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 
 export type CameraRef = {
   present: () => void
@@ -7,6 +7,6 @@ export type CameraRef = {
 }
 
 export type Props = {
-  onDone: (photo: ImageType) => void
+  onDone: (photo: MediaType) => void
   onClose?: () => void
 }

@@ -4,7 +4,7 @@ import {
   createNavigationContainerRef
 } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 
 export type RootStackParamList = {
   Splash: undefined
@@ -12,8 +12,8 @@ export type RootStackParamList = {
   Home: undefined
   Settings: undefined
   CreatePost: undefined
-  CreatePostFilter: { media: ImageType[] }
-  CreatePostContent: { media: ImageType[] }
+  CreatePostFilter: { media: MediaType[] }
+  CreatePostContent: { media: MediaType[] }
   Search: { keySearch: string }
   // Add more screens here
 }

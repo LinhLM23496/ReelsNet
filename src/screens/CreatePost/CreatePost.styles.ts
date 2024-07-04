@@ -15,9 +15,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   item: {
-    flex: 1,
-    width: '80%',
-    height: 'auto'
+    width: 'auto',
+    height: '100%'
+  },
+  subItem: {
+    width: '100%',
+    height: '100%'
   },
   footer: {
     paddingHorizontal: space.m,
@@ -25,5 +28,16 @@ export const styles = StyleSheet.create({
   },
   empty: {
     flex: 1
+  },
+  currentTime: {
+    position: 'absolute',
+    bottom: space.xxs,
+    right: space.xxs
+  },
+  buttonPlay: {
+    position: 'absolute'
+  },
+  video: {
+    justifyContent: 'center'
   }
 })

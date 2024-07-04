@@ -1,6 +1,6 @@
 import { UserData } from 'api/users/types'
 
-export type ImageType = {
+export type MediaType = {
   height: number
   url: string
   width: number
@@ -18,7 +18,7 @@ export type PostData = {
   comments_disabled: boolean
   has_liked: boolean
   id: string
-  image_versions: ImageType[]
+  image_versions: MediaType[]
   is_paid_partnership: boolean
   is_video: boolean
   like_and_view_counts_disabled: boolean

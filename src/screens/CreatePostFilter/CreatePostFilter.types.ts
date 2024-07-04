@@ -1,4 +1,4 @@
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 import { Ref } from 'react'
 import { ImageItemRef } from './components/ImageItem.types'
 
@@ -8,6 +8,6 @@ export type FilterType = {
   title: string
 }
 
-export type ImageFilterType = ImageType & {
+export type ImageFilterType = MediaType & {
   ref: Ref<ImageItemRef>
 }

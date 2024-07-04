@@ -1,12 +1,12 @@
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 
 export type Props = {
-  data: ImageType
+  data: MediaType
   onDelete: () => void
   matrix: any
   isDelete: boolean
 }
 
 export type ImageItemRef = {
-  capture: () => Promise<ImageType>
+  capture: () => Promise<MediaType>
 }

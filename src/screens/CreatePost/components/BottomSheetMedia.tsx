@@ -9,12 +9,13 @@ import React, {
 } from 'react'
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 import { color, space } from 'themes'
-import { Ratio } from 'components'
+import { Ratio, Text } from 'components'
 import { useDidMountEffect, useGallery } from 'hooks'
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 import { styles } from './BottomSheetMedia.styles'
 import { BSMediaRef, Props } from './BottomSheetMedia.types'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { formatTime } from 'lib'
 
 const LIMIT = 10
 
@@ -24,31 +25,31 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
   const { isMultiple, currentSelect, changeCurrentSelect } = props
   const snapPoints = ['40%']
   const bottomSheetRef = useRef<BottomSheet>(null)
-  const [select, setSelect] = useState<ImageType[]>([])
+  const [select, setSelect] = useState<MediaType[]>([])
   const {
-    photos,
+    media,
     isLoading,
     isLoadingNextPage,
     hasNextPage,
-    loadNextPagePictures,
+    loadNextPageMedia,
     getUnloadedPictures
-  } = useGallery({ assetType: 'Photos' })
+  } = useGallery({ assetType: 'All' })
   // TODO: get All: video + image
 
   useEffect(() => {
-    loadNextPagePictures().then((listPhoto) => {
-      if (listPhoto?.length) {
-        const photoFirst = listPhoto[0]
-        changeCurrentSelect(photoFirst)
-        setSelect([photoFirst])
+    loadNextPageMedia().then((listMedia) => {
+      if (listMedia?.length) {
+        const mediaFirst = listMedia[0]
+        changeCurrentSelect(mediaFirst)
+        setSelect([mediaFirst])
       }
     })
   }, [])
 
   useDidMountEffect(() => {
-    if (!isMultiple && select.length > 1 && photos?.length) {
-      const photoFirst = photos[0]
-      setSelect([photoFirst])
+    if (!isMultiple && select.length > 1 && media?.length) {
+      const mediaFirst = media[0]
+      setSelect([mediaFirst])
     }
   }, [isMultiple])
 
@@ -58,12 +59,13 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
       setSelect((prev) =>
         isMultiple ? [...prev, positionImage] : [positionImage]
       ),
-    refresh: getUnloadedPictures
+    refresh: () => getUnloadedPictures()
   }))
 
-  const renderMedia = ({ item }: { item: ImageType }) => {
-    const { uri } = item
+  const renderMedia = ({ item }: { item: MediaType }) => {
+    const { uri, type, playableDuration } = item
     const itemIndex = select.findIndex((i) => i.uri === uri)
+    const isVideo = type === 'video'
     const active = itemIndex !== -1
     const currentActive = currentSelect?.uri === uri
     const opacity = currentActive ? 0.5 : 1
@@ -93,13 +95,14 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
           } else {
             // remove when current select is in select
             const newArray = select.filter((i) => i.uri !== uri)
-            changeCurrentSelect(newArray.at(-1) as ImageType)
+            changeCurrentSelect(newArray.at(-1) as MediaType)
             setSelect(newArray)
             return
           }
         }
       }
     }
+
     return (
       <TouchableOpacity
         disabled={disabled}
@@ -110,20 +113,25 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
         {isMultiple ? (
           <Ratio active={active} number={itemIndex + 1} style={styles.ratio} />
         ) : null}
+        {isVideo ? (
+          <Text size="s" color={color.white} style={styles.playableDuration}>
+            {formatTime(playableDuration ?? 0)}
+          </Text>
+        ) : null}
       </TouchableOpacity>
     )
   }
 
   const handleLoadMore = () => {
     if (isLoadingNextPage || !hasNextPage) return
-    loadNextPagePictures()
+    loadNextPageMedia()
   }
 
   return (
     <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
       {!isLoading ? (
         <BottomSheetFlatList
-          data={photos}
+          data={media}
           numColumns={4}
           renderItem={renderMedia}
           keyExtractor={(item) => item.uri}

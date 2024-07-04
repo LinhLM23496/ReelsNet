@@ -9,16 +9,17 @@ import usePermission from './usePermission'
 import { isIOS } from 'lib'
 import useDidMountEffect from './useDidMountEffect '
 
-export type ImageType = {
+export type MediaType = {
+  type: string // image, video
   uri: string
   width: number
   height: number
-  name: string // ABC
   filename: string // ABC.png
-  type: string // image
-  extension: string // png
-  mineType?: string // image/png
+  name: string // ABC
+  extension: string | null // png, mp4
+  mineType: string // image/png, video/mp4,
   fileSize: number
+  playableDuration?: number | null // for video
 }
 
 type GalleryOptions = {
@@ -28,8 +29,8 @@ type GalleryOptions = {
 }
 
 type GalleryLogic = {
-  photos?: ImageType[]
-  loadNextPagePictures: () => Promise<ImageType[] | undefined>
+  media: MediaType[]
+  loadNextPageMedia: () => Promise<MediaType[] | undefined>
   isLoading: boolean
   isLoadingNextPage: boolean
   isReloading: boolean
@@ -39,100 +40,95 @@ type GalleryLogic = {
 
 const isAboveIOS14 = isIOS && parseInt(String(Platform.Version), 10) >= 14
 
-function convertCameraRollPicturesToImageType(
-  edges: PhotoIdentifier[]
-): ImageType[] {
-  return edges.map((edge) => {
-    const filename = edge.node.image.filename
-    const fileExtension = edge.node.image.extension
-    const extension = fileExtension ?? filename?.split('.').pop() ?? 'png'
+function convertCameraRollToMediaType(edges: PhotoIdentifier[]): MediaType[] {
+  return edges.map(({ node }) => {
+    const filename = node.image.filename
+    const extension = node.image.extension
     const endExtension = '.' + extension
     const name = filename?.includes(endExtension)
       ? filename
       : (filename ?? '') + endExtension
-    const imageType = edge.node.type
-    const mineType = imageType + '/' + extension
+    const type = node.type
+    const mineType = type + '/' + extension
     return {
-      id: edge.node.id,
-      uri: edge.node.image.uri,
-      width: edge.node.image.width,
-      height: edge.node.image.height,
+      uri: node.image.uri,
+      width: node.image.width,
+      height: node.image.height,
       filename: filename ?? '',
-      fileSize: edge.node.image.fileSize ?? 0,
-      type: edge.node.type,
+      fileSize: node.image.fileSize ?? 0,
+      type,
       extension,
       name,
-      mineType
+      mineType,
+      playableDuration: node.image.playableDuration
     }
   })
 }
 
-const useGallery = (props?: GalleryOptions): GalleryLogic => {
-  const { pageSize = 100, assetType = 'Photos', isCamera } = props || {}
+const handleError = (error: any) => {
+  if (
+    error?.code === 'E_PHOTO_LIBRARY_AUTH_DENIED' ||
+    error?.message === 'Permission denied'
+  ) {
+    return
+  }
 
+  Alert.alert('Error', 'Failed to load photos')
+}
+
+const useGallery = (props: GalleryOptions): GalleryLogic => {
+  const { pageSize = 100, assetType = 'Photos', isCamera } = props
   const { checkMultiPermission } = usePermission()
+
   const [isLoading, setIsLoading] = useState(false)
   const [isReloading, setIsReloading] = useState(false)
   const [isLoadingNextPage, setIsLoadingNextPage] = useState(false)
   const [hasNextPage, setHasNextPage] = useState(false)
   const [nextCursor, setNextCursor] = useState<string>()
-  const [photos, setPhotos] = useState<ImageType[]>([])
+  const [media, setMedia] = useState<MediaType[]>([])
 
-  const loadNextPagePictures = useCallback(async () => {
-    if (isLoading || isLoadingNextPage) return
+  const paramsGetPhotos: any = {
+    first: pageSize,
+    assetType,
+    ...(!isIOS && { include: ['fileSize', 'filename'] })
+  }
+
+  const loadNextPageMedia = useCallback(async () => {
+    if (isLoading || isLoadingNextPage || isReloading) return
+
+    if (nextCursor) paramsGetPhotos.after = nextCursor
+
     try {
       nextCursor ? setIsLoadingNextPage(true) : setIsLoading(true)
       await checkPermission()
-      const { edges, page_info } = await CameraRoll.getPhotos({
-        first: pageSize,
-        after: nextCursor,
-        assetType,
-        ...(!isIOS && { include: ['fileSize', 'filename'] })
-      })
+      const { edges, page_info } = await CameraRoll.getPhotos(paramsGetPhotos)
 
-      const coverPhotos = convertCameraRollPicturesToImageType(edges)
-      setPhotos((prev) => [...prev, ...coverPhotos])
+      const coverMedia = convertCameraRollToMediaType(edges)
+      setMedia((prev) => [...prev, ...coverMedia])
       setNextCursor(page_info.end_cursor)
       setHasNextPage(page_info.has_next_page)
-      return coverPhotos
+      return coverMedia
     } catch (error: any) {
-      if (error?.code === 'E_PHOTO_LIBRARY_AUTH_DENIED') return
-      Alert.alert('Error', 'Failed to load photos')
+      handleError(error)
     } finally {
       nextCursor ? setIsLoadingNextPage(false) : setIsLoading(false)
     }
-  }, [nextCursor, pageSize, isLoading, isLoadingNextPage])
+  }, [nextCursor, pageSize])
 
   const getUnloadedPictures = useCallback(async () => {
     try {
       setIsReloading(true)
-      await checkPermission()
-
-      const { edges, page_info } = await CameraRoll.getPhotos({
-        first: !photos || photos.length < pageSize ? pageSize : photos.length,
-        assetType,
-        // Include fileSize only for android since it's causing performance issues on IOS.
-        ...(!isIOS && { include: ['fileSize', 'filename'] })
-      })
-
-      const newPhotos = convertCameraRollPicturesToImageType(edges)
-      setPhotos(newPhotos)
-
+      const { edges, page_info } = await CameraRoll.getPhotos(paramsGetPhotos)
+      const newPhotos = convertCameraRollToMediaType(edges)
+      setMedia(newPhotos)
       setNextCursor(page_info.end_cursor)
       setHasNextPage(page_info.has_next_page)
-    } catch (error: any) {
-      if (
-        error?.code === 'E_PHOTO_LIBRARY_AUTH_DENIED' ||
-        error?.message === 'Permission denied'
-      ) {
-        return
-      }
-
-      Alert.alert('Error', 'Failed to load photos')
+    } catch (error) {
+      handleError(error)
     } finally {
       setIsReloading(false)
     }
-  }, [pageSize, photos])
+  }, [pageSize, media])
 
   useDidMountEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
@@ -144,7 +140,7 @@ const useGallery = (props?: GalleryOptions): GalleryLogic => {
     return () => {
       subscription.remove()
     }
-  }, [getUnloadedPictures])
+  }, [])
 
   useDidMountEffect(() => {
     let subscription: EmitterSubscription
@@ -160,14 +156,7 @@ const useGallery = (props?: GalleryOptions): GalleryLogic => {
           )
         }
       } catch (error: any) {
-        if (
-          error?.code === 'E_PHOTO_LIBRARY_AUTH_DENIED' ||
-          error?.message === 'Permission denied'
-        ) {
-          return
-        }
-
-        Alert.alert('Error', 'Failed to load photos')
+        handleError(error)
       }
     }
 
@@ -192,8 +181,8 @@ const useGallery = (props?: GalleryOptions): GalleryLogic => {
   }
 
   return {
-    photos,
-    loadNextPagePictures,
+    media,
+    loadNextPageMedia,
     isLoading,
     isLoadingNextPage,
     isReloading,

@@ -1,8 +1,8 @@
 import { IconComponent } from 'components/Icon/Icon'
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 
 export type PostParams = {
-  media: ImageType[]
+  media: MediaType[]
   content: string
   location?: {
     latitude: number
@@ -11,7 +11,7 @@ export type PostParams = {
   tagUsers?: string[]
   tagAI: boolean
   shareFacebook: boolean
-  music: ImageType
+  music: MediaType
   showLike: boolean
   showShare: boolean
   isComment: boolean

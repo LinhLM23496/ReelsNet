@@ -15,6 +15,8 @@ import {
   IconHome,
   IconLocation,
   IconMusic,
+  IconPause,
+  IconPlay,
   IconPlipCamera,
   IconPlus,
   IconSearch,
@@ -46,7 +48,9 @@ export const IconComponent = {
   camera: IconCamera,
   takePhoto: IconPlipCamera,
   flash: IconFlash,
-  check: IconCheck
+  check: IconCheck,
+  pause: IconPause,
+  play: IconPlay
 }
 
 const Icon = (props: Props) => {

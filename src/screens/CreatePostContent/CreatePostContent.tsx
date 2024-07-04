@@ -1,6 +1,5 @@
 import {
   FlatList,
-  Image,
   ScrollView,
   Switch,
   TouchableOpacity,
@@ -18,12 +17,13 @@ import {
 } from 'components'
 import { HEIGHT_NAVIGATION_BAR, color, colorRange, space } from 'themes'
 import { NavigationService, ScreenProps } from 'navigation'
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 import { Controller, useForm } from 'react-hook-form'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import BottomSheetAdvanced from './components/BottomSheetAdvanced'
 import { DataType, PostParams } from './CreatePostContent.types'
 import { styles } from './CreatePostContent.styles'
+import MediaItem from './components/MediaItem'
 
 const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
   const media = route.params?.media
@@ -160,7 +160,7 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
               }}
               thumbColor={color.white}
               ios_backgroundColor={color.gray}
-              onValueChange={(value) => onChange(value)}
+              onValueChange={onChange}
               value={value}
             />
           )
@@ -204,9 +204,8 @@ const CreatePostContent: FC<ScreenProps<'CreatePostContent'>> = ({ route }) => {
     )
   }
 
-  const renderMedia = ({ item }: { item: ImageType }) => {
-    const { uri } = item
-    return <Image source={{ uri }} resizeMode="contain" style={styles.item} />
+  const renderMedia = ({ item }: { item: MediaType }) => {
+    return <MediaItem key={item.uri} data={item} />
   }
 
   return (

@@ -12,13 +12,6 @@ export const styles = StyleSheet.create({
   containerContent: {
     gap: space.m
   },
-  item: {
-    width: space.half_width,
-    height: 'auto',
-    aspectRatio: 9 / 16,
-    backgroundColor: color.white,
-    borderRadius: space.xs
-  },
   input: {
     paddingHorizontal: space.m
   },

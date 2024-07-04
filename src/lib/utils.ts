@@ -24,3 +24,23 @@ export function generateRandomString(): string {
   }
   return result
 }
+
+export function formatTime(seconds: number) {
+  seconds = Math.round(seconds)
+  // Make sure seconds is a positive integer
+  seconds = Math.max(0, seconds)
+
+  let hours = Math.floor(seconds / 3600)
+  let minutes = Math.floor((seconds % 3600) / 60)
+  let secs = seconds % 60
+
+  const pad = (num: number) => (num < 10 ? '0' + num : num)
+
+  if (hours > 0) {
+    return `${pad(hours)}:${pad(minutes)}:${pad(secs)}`
+  } else if (minutes > 0) {
+    return `${pad(minutes)}:${pad(secs)}`
+  } else {
+    return `00:${pad(secs)}`
+  }
+}

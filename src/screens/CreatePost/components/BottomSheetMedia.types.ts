@@ -1,13 +1,13 @@
-import { ImageType } from 'hooks/useGallery'
+import { MediaType } from 'hooks/useGallery'
 
 export type Props = {
   isMultiple: boolean
-  currentSelect: ImageType
-  changeCurrentSelect: (item: ImageType) => void
+  currentSelect: MediaType
+  changeCurrentSelect: (item: MediaType) => void
 }
 
 export type BSMediaRef = {
-  getSelected: () => ImageType[]
-  updateSelected: (position: ImageType) => void
+  getSelected: () => MediaType[]
+  updateSelected: (position: MediaType) => void
   refresh: () => void
 }

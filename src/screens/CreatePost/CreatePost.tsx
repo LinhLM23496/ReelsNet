@@ -1,10 +1,16 @@
-import { Image, Linking, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  Linking,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Button, NavigationBar, Row, Text } from 'components'
 import { color } from 'themes'
 import BottomSheetMedia from './components/BottomSheetMedia'
-import { usePermission, useToggle } from 'hooks'
-import { ImageType } from 'hooks/useGallery'
+import { useDidMountEffect, usePermission, useToggle } from 'hooks'
+import { MediaType } from 'hooks/useGallery'
 import { BSMediaRef } from './components/BottomSheetMedia.types'
 import { NavigationService, Route } from 'navigation'
 import CameraView from './components/CameraView'
@@ -13,6 +19,8 @@ import { CameraRoll } from '@react-native-camera-roll/camera-roll'
 import { useDispatch } from 'react-redux'
 import { onModal } from 'stores/modal'
 import { styles } from './CreatePost.styles'
+import Video, { VideoRef } from 'react-native-video'
+import { formatTime } from 'lib'
 
 // TODO: current media is photos beacause I haven't handled the video case yet.
 // TODO: hanlde video
@@ -21,8 +29,24 @@ const CreatePost = () => {
   const { requestMultiPermission } = usePermission()
   const mediaRef = useRef<BSMediaRef>(null)
   const cameraRef = useRef<CameraRef>(null)
+  const videoRef = useRef<VideoRef>(null)
   const [isMultiple, setIsMultiple] = useToggle(false)
-  const [currentSelect, setCurrentSelect] = useState<ImageType>()
+  const [currentSelect, setCurrentSelect] = useState<MediaType>()
+  const { width = 0, height = 0, uri, type } = currentSelect ?? {}
+
+  const [isShowController, setIsShowController] = useToggle(false)
+  const [paused, setPaused] = useState(true)
+  const [currentTime, setCurrentTime] = useState(0)
+  const isVideo = type === 'video'
+  const opacity = isShowController ? 0.3 : 1
+  const aspectRatio = width / height
+
+  useDidMountEffect(() => {
+    !paused && setPaused(true)
+    currentTime !== 0 && setCurrentTime(0)
+    isShowController && setIsShowController()
+  }, [currentSelect])
+
   const handleCamera = () => {
     requestMultiPermission(['camera'])
       .then((value) => {
@@ -56,15 +80,20 @@ const CreatePost = () => {
   const handleContinue = () => {
     const selected = mediaRef.current?.getSelected()
     if (!selected || !selected?.length) return
+    if (selected.some((i) => i.type === 'video')) {
+      return NavigationService.push(Route.CreatePostContent, {
+        media: selected
+      })
+    }
     NavigationService.push(Route.CreatePostFilter, { media: selected })
   }
 
-  const onTakeCamera = async (photo: ImageType) => {
+  const onTakeCamera = async (photo: MediaType) => {
     if (!photo) return
     cameraRef.current?.close()
     CameraRoll.saveAsset(photo.uri).then((photoSave) => {
       mediaRef.current?.refresh()
-      const image = photoSave.node.image as unknown as ImageType
+      const image = photoSave.node.image as unknown as MediaType
       setCurrentSelect(image)
       mediaRef.current?.updateSelected(image)
     })
@@ -116,7 +145,61 @@ const CreatePost = () => {
       />
       <View style={styles.body}>
         {currentSelect ? (
-          <Image source={{ uri: currentSelect.uri }} style={styles.item} />
+          <View style={[styles.item, { aspectRatio }]}>
+            {isVideo ? (
+              <View style={styles.video}>
+                <TouchableNativeFeedback
+                  disabled={!isVideo}
+                  style={{}}
+                  onPress={() => {
+                    console.log('TouchableNativeFeedback')
+                    setIsShowController()
+                  }}>
+                  <View>
+                    <Video
+                      ref={videoRef}
+                      source={{ uri }}
+                      paused={paused}
+                      onEnd={() => {
+                        videoRef.current?.seek(0)
+                        setPaused(true)
+                      }}
+                      onProgress={({ currentTime: _currentTime }) =>
+                        setCurrentTime(_currentTime)
+                      }
+                      resizeMode="cover"
+                      style={[styles.subItem, { opacity }]}
+                    />
+                    <Text fontWeight="bold" style={styles.currentTime}>
+                      {formatTime(currentTime)}
+                    </Text>
+                  </View>
+                </TouchableNativeFeedback>
+                {isShowController ? (
+                  <Button
+                    variant="ghost"
+                    iconName={paused ? 'play' : 'pause'}
+                    onPress={() => {
+                      if (paused) {
+                        setTimeout(() => {
+                          setIsShowController()
+                        }, 250)
+                      }
+                      !paused && videoRef.current?.pause()
+                      setPaused(!paused)
+                    }}
+                    style={[styles.buttonPlay]}
+                  />
+                ) : null}
+              </View>
+            ) : (
+              <Image
+                source={{ uri }}
+                style={styles.subItem}
+                resizeMode="cover"
+              />
+            )}
+          </View>
         ) : null}
       </View>
       <Row alignSelf="flex-end" gap="xs" style={styles.footer}>
@@ -141,7 +224,7 @@ const CreatePost = () => {
       <BottomSheetMedia
         ref={mediaRef}
         isMultiple={isMultiple}
-        currentSelect={currentSelect as ImageType}
+        currentSelect={currentSelect as MediaType}
         changeCurrentSelect={setCurrentSelect}
       />
       <CameraView ref={cameraRef} onDone={onTakeCamera} />

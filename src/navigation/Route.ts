@@ -1,11 +1,16 @@
+import { lazy } from 'react'
 import { RootStackParamList } from './NavigationService'
+import Splash from 'screens/Splash/Splash'
 import Home from 'screens/Home/Home'
 import Settings from 'screens/Settings/Settings'
-import CreatePost from 'screens/CreatePost/CreatePost'
-import Search from 'screens/Search/Search'
-import CreatePostContent from 'screens/CreatePostContent/CreatePostContent'
-import CreatePostFilter from 'screens/CreatePostFilter/CreatePostFilter'
-import Splash from 'screens/Splash/Splash'
+const CreatePost = lazy(() => import('screens/CreatePost/CreatePost'))
+const Search = lazy(() => import('screens/Search/Search'))
+const CreatePostFilter = lazy(
+  () => import('screens/CreatePostFilter/CreatePostFilter')
+)
+const CreatePostContent = lazy(
+  () => import('screens/CreatePostContent/CreatePostContent')
+)
 
 type RouteConfig = {
   [key in keyof RootStackParamList]: {
