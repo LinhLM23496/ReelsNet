@@ -15,12 +15,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center'
   },
   item: {
-    width: 'auto',
+    width: '100%',
     height: '100%'
   },
   subItem: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   footer: {
     paddingHorizontal: space.m,

@@ -32,14 +32,12 @@ const CreatePost = () => {
   const videoRef = useRef<VideoRef>(null)
   const [isMultiple, setIsMultiple] = useToggle(false)
   const [currentSelect, setCurrentSelect] = useState<MediaType>()
-  const { width = 0, height = 0, uri, type } = currentSelect ?? {}
 
   const [isShowController, setIsShowController] = useToggle(false)
   const [paused, setPaused] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
-  const isVideo = type === 'video'
+  const isVideo = currentSelect?.type === 'video'
   const opacity = isShowController ? 0.3 : 1
-  const aspectRatio = width / height
 
   useDidMountEffect(() => {
     !paused && setPaused(true)
@@ -125,7 +123,10 @@ const CreatePost = () => {
       })
     )
   }
-
+  const onEnd = () => {
+    videoRef.current?.seek(0)
+    setPaused(true)
+  }
   return (
     <View style={styles.container}>
       <NavigationBar
@@ -145,26 +146,22 @@ const CreatePost = () => {
       />
       <View style={styles.body}>
         {currentSelect ? (
-          <View style={[styles.item, { aspectRatio }]}>
+          <View style={styles.item}>
             {isVideo ? (
               <View style={styles.video}>
                 <TouchableNativeFeedback
                   disabled={!isVideo}
-                  style={{}}
                   onPress={setIsShowController}>
                   <View>
                     <Video
                       ref={videoRef}
-                      source={{ uri }}
+                      source={{ uri: currentSelect?.uri }}
                       paused={paused}
-                      onEnd={() => {
-                        videoRef.current?.seek(0)
-                        setPaused(true)
-                      }}
+                      onEnd={onEnd}
                       onProgress={({ currentTime: _currentTime }) =>
                         setCurrentTime(_currentTime)
                       }
-                      resizeMode="cover"
+                      resizeMode="contain"
                       style={[styles.subItem, { opacity }]}
                     />
                     <Text fontWeight="bold" style={styles.currentTime}>
@@ -191,9 +188,9 @@ const CreatePost = () => {
               </View>
             ) : (
               <Image
-                source={{ uri }}
+                source={{ uri: currentSelect?.uri }}
                 style={styles.subItem}
-                resizeMode="cover"
+                resizeMode="contain"
               />
             )}
           </View>

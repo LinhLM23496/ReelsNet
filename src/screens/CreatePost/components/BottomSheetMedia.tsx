@@ -114,7 +114,7 @@ const BottomSheetMedia = forwardRef((props: Props, ref: Ref<BSMediaRef>) => {
           <Ratio active={active} number={itemIndex + 1} style={styles.ratio} />
         ) : null}
         {isVideo ? (
-          <Text size="s" color={color.white} style={styles.playableDuration}>
+          <Text size="s" style={styles.playableDuration}>
             {formatTime(playableDuration ?? 0)}
           </Text>
         ) : null}

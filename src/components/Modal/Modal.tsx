@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { View, Modal as ModalRN } from 'react-native'
 import Animated, {
@@ -10,11 +10,50 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 import { color } from 'themes'
-import { PositionType, Props } from './Modal.types'
+import {
+  JustifyContentType,
+  PositionModal,
+  PositionType,
+  Props
+} from './Modal.types'
 import ProgressBar from './components/ProgressBar'
 import Button from 'components/Button/Button'
 import { styles } from './Modal.styles'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+
+const stylesFollowPosition = (
+  position: PositionModal,
+  insets: EdgeInsets
+): PositionType => {
+  const { bottom, top } = insets
+  let justifyContent: JustifyContentType = 'center'
+  let value = 0
+  let marginTop = 0
+  let marginBottom = 0
+
+  switch (position) {
+    case 'top':
+      justifyContent = 'flex-start'
+      value = -400
+      marginTop = top
+      break
+    case 'bottom':
+      justifyContent = 'flex-end'
+      value = 400
+      marginBottom = bottom
+
+      break
+    default:
+      break
+  }
+
+  return {
+    justifyContent,
+    value,
+    marginTop,
+    marginBottom
+  }
+}
 
 const Modal = (props: Props) => {
   const {
@@ -27,24 +66,9 @@ const Modal = (props: Props) => {
     autoClose = false
   } = props
   const overlayValue = useSharedValue(color.transparent)
-  const { bottom, top } = useSafeAreaInsets()
-
-  const { justifyContent, marginTop, marginBottom, value }: PositionType =
-    useMemo(() => {
-      switch (position) {
-        case 'top':
-          return { justifyContent: 'flex-start', value: -400, marginTop: top }
-        case 'bottom':
-          return {
-            justifyContent: 'flex-end',
-            value: 400,
-            marginBottom: bottom
-          }
-        default:
-          return { justifyContent: 'center', value: 0 }
-      }
-    }, [position])
-
+  const insets = useSafeAreaInsets()
+  const { justifyContent, value, marginTop, marginBottom } =
+    stylesFollowPosition(position, insets)
   const visibleValue = useSharedValue(value)
 
   useEffect(() => {

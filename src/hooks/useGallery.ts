@@ -12,8 +12,8 @@ import useDidMountEffect from './useDidMountEffect '
 export type MediaType = {
   type: string // image, video
   uri: string
-  width: number
-  height: number
+  width: number | null
+  height: number | null
   filename: string // ABC.png
   name: string // ABC
   extension: string | null // png, mp4
@@ -42,13 +42,13 @@ const isAboveIOS14 = isIOS && parseInt(String(Platform.Version), 10) >= 14
 
 function convertCameraRollToMediaType(edges: PhotoIdentifier[]): MediaType[] {
   return edges.map(({ node }) => {
-    const filename = node.image.filename
+    const filename = node.image.filename ?? ''
     const extension = node.image.extension
     const endExtension = '.' + extension
     const name = filename?.includes(endExtension)
       ? filename
       : (filename ?? '') + endExtension
-    const type = node.type
+    const type = node.type.split('/')[0]
     const mineType = type + '/' + extension
     return {
       uri: node.image.uri,
@@ -90,7 +90,13 @@ const useGallery = (props: GalleryOptions): GalleryLogic => {
   const paramsGetPhotos: any = {
     first: pageSize,
     assetType,
-    ...(!isIOS && { include: ['fileSize', 'filename'] })
+    include: [
+      'fileSize', // This has a large performance impact on iOS.
+      'filename', // This has a large performance impact on iOS.
+      'fileExtension',
+      'imageSize', //  This has a small peformance impact on Android.
+      'playableDuration' //  This has a medium peformance impact on Android.
+    ]
   }
 
   const loadNextPageMedia = useCallback(async () => {

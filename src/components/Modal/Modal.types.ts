@@ -10,7 +10,11 @@ export type Props = {
   autoClose?: boolean
 }
 
+export type JustifyContentType = 'flex-start' | 'center' | 'flex-end'
+
 export type PositionType = {
-  justifyContent: 'flex-start' | 'center' | 'flex-end'
+  justifyContent: JustifyContentType
   value: number
+  marginTop: number
+  marginBottom: number
 }
